@@ -1,0 +1,15 @@
+build/
+
+.*~
+*~
+*.swp
+*.swo
+*.tmp
+
+*.z64
+*.map
+*.elf
+*.a
+*.o
+*.d
+

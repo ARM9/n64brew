@@ -67,5 +67,6 @@ run:
 
 run2:
 	$(mess) $(CURDIR)/$(TARGET).z64
+
 #-include $(DEPFILES)
 
