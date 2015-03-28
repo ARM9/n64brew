@@ -59,13 +59,13 @@ clean:
 	@echo "Cleaning..."
 	@rm -rf $(OFILES) $(DEPFILES) $(TARGET).map $(TARGET).elf $(TARGET).z64
 
-debug:
+debug: all
 	$(mess) $(CURDIR)/$(TARGET).z64 -d
 
-run:
+run: all
 	$(cen64) $(CURDIR)/$(TARGET).z64
 
-run2:
+run2: all
 	$(mess) $(CURDIR)/$(TARGET).z64
 
 #-include $(DEPFILES)

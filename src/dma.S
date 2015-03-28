@@ -9,11 +9,11 @@ dmaCopy:
     .set noreorder
 
     lui $t0,PI_BASE # A0 = PI Base Register ($A4600000)
-DMABusy:
+0:
         lb $t1,PI_STATUS($t0) # T0 = Byte From PI Status Register ($A4600010)
         sync # Sync Load
         andi $t1,3 # AND PI Status With 3
-        bnez $t1,DMABusy # IF TRUE DMA Is Busy
+        bnez $t1,0b # IF TRUE DMA Is Busy
         nop # Delay Slot
 
     li $t2,0x7FFFFF

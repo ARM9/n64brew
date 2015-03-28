@@ -136,19 +136,19 @@
 .endm
 
 .macro DMA start, end, dest  # DMA Data Copy Cart->DRAM: Start Cart Address, End Cart Address, Destination DRAM Address
-  lui $a0,PI_BASE # A0 = PI Base Register ($A4600000)
+  lui $t0,PI_BASE # A0 = PI Base Register ($A4600000)
   DMABusy\@:
-    lb $t0,PI_STATUS($a0) # T0 = Byte From PI Status Register ($A4600010)
+    lb $t1,PI_STATUS($t0) # T0 = Byte From PI Status Register ($A4600010)
     sync # Sync Load
-    andi $t0,3 # AND PI Status With 3
-    bnez $t0,DMABusy\@ # IF TRUE DMA Is Busy
+    andi $t1,3 # AND PI Status With 3
+    bnez $t1,DMABusy\@ # IF TRUE DMA Is Busy
     nop # Delay Slot
 
-    la $t0,\dest&0x7FFFFF # T0 = Aligned DRAM Physical RAM Offset ($00000000..$007FFFFF 8MB)
-    sw $t0,PI_DRAM_ADDR($a0) # Store RAM Offset To PI DRAM Address Register ($A4600000)
-    la $t0,0x10000000|(start&0x3FFFFFF) # T0 = Aligned Cart Physical ROM Offset ($10000000..$13FFFFFF 64MB)
-    sw $t0,PI_CART_ADDR($a0) # Store ROM Offset To PI Cart Address Register ($A4600004)
-    la $t0,(\end-\start)-1 # T0 = Length Of DMA Transfer In Bytes - 1
-    sw $t0,PI_WR_LEN($a0) # Store DMA Length To PI Write Length Register ($A460000C)
+    la $t1,\dest&0x7FFFFF # T0 = Aligned DRAM Physical RAM Offset ($00000000..$007FFFFF 8MB)
+    sw $t1,PI_DRAM_ADDR($t0) # Store RAM Offset To PI DRAM Address Register ($A4600000)
+    la $t1,0x10000000|(start&0x3FFFFFF) # T0 = Aligned Cart Physical ROM Offset ($10000000..$13FFFFFF 64MB)
+    sw $t1,PI_CART_ADDR($t0) # Store ROM Offset To PI Cart Address Register ($A4600004)
+    la $t1,(\end-\start)-1 # T0 = Length Of DMA Transfer In Bytes - 1
+    sw $t1,PI_WR_LEN($t0) # Store DMA Length To PI Write Length Register ($A460000C)
 .endm
 # vim:ft=mips

@@ -7,16 +7,16 @@
     .global screenNTSC
     .type   screenNTSC,@function
 screenNTSC:
-.equ screen_ptr,$a0
-.equ status,    $a1
+    .equ screen_ptr,$a0
+    .equ status,    $a1
 
-.equ vi_ptr,    $t0
-.equ tmp,       $t1
-.equ width,     $t2
-.equ height,    $t3
-.equ fb_ptr,    $t4
-.equ fb_size,   $t5
-.equ const,     $t6
+    .equ vi_ptr,    $t0
+    .equ tmp,       $t1
+    .equ width,     $t2
+    .equ height,    $t3
+    .equ fb_ptr,    $t4
+    .equ fb_size,   $t5
+    .equ const,     $t6
 
     .set at; .set noreorder
 
@@ -71,12 +71,12 @@ screenNTSC:
     .global swapFramebuffer
     .type swapFramebuffer,@function
 swapFramebuffer:
-.equ screen_ptr,$a0
+    .equ screen_ptr,$a0
 
-.equ vi_ptr,    $t0
-.equ fb_ptr,    $t1
-.equ fb_size,   $t2
-.equ tmp,       $t3
+    .equ vi_ptr,    $t0
+    .equ fb_ptr,    $t1
+    .equ fb_size,   $t2
+    .equ tmp,       $t3
 
     .set noat; .set noreorder
     lw fb_ptr,8(screen_ptr)
@@ -96,8 +96,8 @@ swapFramebuffer:
     .global waitScanline
     .type waitScanline,@function
 waitScanline: # Wait For RDP To Reach Scanline
-.equ vi_ptr,$t0
-.equ tmp,   $t1
+    .equ vi_ptr,$t0
+    .equ tmp,   $t1
 
     .set noat; .set noreorder
     lui vi_ptr,VI_BASE # A0 = VI Base Register (0xA4400000)

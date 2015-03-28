@@ -215,5 +215,5 @@ _end:
     nop
 .size drawCircle, .-drawCircle
 
-    .set reorder
+    .set reorder; .set at
 # vim:ft=mips
