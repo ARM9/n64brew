@@ -1,5 +1,29 @@
 
+
     .text
+    .align 4
+    .global plot
+    .type plot, @function
+# void plot(int x, int y, unsigned color, unsigned *framebuffer)
+plot:
+.equ x,     $a0
+.equ y,     $a1
+.equ color, $a2
+.equ fb,    $a3
+
+.equ tmp,   $t8
+.equ const, $t9
+
+    .set noat; .set noreorder
+    li const, 320*2
+    multu y, const
+    sll $at, x, 1
+    mflo tmp
+    add tmp, $at
+    add tmp, fb
+    jr $ra
+    sh color, 0(tmp)
+
     .align 4
     .global drawLine
     .type   drawLine, @function
