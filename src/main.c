@@ -64,6 +64,7 @@ int main(void)
         tri[1].y = 120+(isin(line.x+0x2000)>>7);
         tri[1].x = 180+(isin(line.x+0x1000)>>7);
         tri[2].x = 200+(isin(line.x)>>7);
+        /*tri[2].x = 200+(sinf(line.x)*10.f);*/
 /*
         tri[0].z = fixmul(tri[0].z, 0x104);
         tri[1].z = fixmul(tri[1].z, 0x102);

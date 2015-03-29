@@ -9,7 +9,6 @@ OBJCOPY	= mips64-elf-objcopy
 OBJDUMP	= mips64-elf-objdump
 CHECKSUM	= checksum
 cen64	:= $(EMUDIR)/n64/cen64/cen64 $(EMUDIR)/n64/cen64/pifrom.bin
-#mess_dbg	:=	cd $(EMUDIR)/mess && ./mess64 n64 -d -cart
 mess		:=	cd $(EMUDIR)/mess && ./mess64 n64 -cart
 
 LIBS	= -ln64
