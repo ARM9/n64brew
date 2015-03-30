@@ -1,4 +1,5 @@
 PATH	:= $(PATH):$(DEVKITMIPS)/bin
+LIBN64	:= $(DEVKITMIPS)/n64tool/libn64
 EMUDIR	:= $(DEVKITPRO)/emulators
 
 AS		= mips64-elf-as
@@ -9,14 +10,14 @@ OBJCOPY	= mips64-elf-objcopy
 OBJDUMP	= mips64-elf-objdump
 CHECKSUM	= checksum
 cen64	:= $(EMUDIR)/n64/cen64/cen64 $(EMUDIR)/n64/cen64/pifrom.bin
-mess		:=	cd $(EMUDIR)/mess && ./mess64 n64 -cart
+mess		:=	cd $(EMUDIR)/mess && ./mess64 n64 -w -cart
 
 LIBS	= -ln64
 
-ASFLAGS	= -march=vr4300 -Iinclude -I../n64tool/libn64/include
-CFLAGS	= -Wall -Wextra -pedantic -O2 -std=c99 -fno-builtin -nostdinc -mgpopt -G8 -mno-extern-sdata -march=vr4300 -pipe -flto -ffat-lto-objects -Iinclude -I../n64tool/libn64/include -fcall-saved-t2 -fcall-saved-t3 -fcall-saved-t4 -fcall-saved-t5 -fcall-saved-t6 -fcall-saved-t7 -fcall-saved-t8 -fcall-saved-t9
+ASFLAGS	= -march=vr4300 -Iinclude -I$(LIBN64)/include
+CFLAGS	= -Wall -Wextra -pedantic -O2 -std=c99 -fno-builtin -nostdinc -mgpopt -G8 -mno-extern-sdata -march=vr4300 -pipe -flto -ffat-lto-objects -Iinclude -I$(LIBN64)/include -fcall-saved-t2 -fcall-saved-t3 -fcall-saved-t4 -fcall-saved-t5 -fcall-saved-t6 -fcall-saved-t7 -fcall-saved-t8 -fcall-saved-t9
 
-LDFLAGS	= -L../n64tool/libn64 $(LIBS)
+LDFLAGS	= -L$(LIBN64) $(LIBS)
 
 TARGET	= $(shell basename $(CURDIR))
 
@@ -35,11 +36,11 @@ all: $(TARGET).z64
 $(TARGET).z64: $(TARGET).elf
 	@echo "Building: $@"
 	$(OBJCOPY) -O binary $< $@
-	$(CHECKSUM) ../n64tool/libn64/header.bin $@
+	$(CHECKSUM) $(LIBN64)/header.bin $@
 
 $(TARGET).elf: libn64 $(OFILES)
 	@echo "Linking: $@"
-	$(CC) -Wl,-Map=$(TARGET).map -nostdlib -T../n64tool/libn64/rom.ld -o $@ $(OFILES) $(LDFLAGS)
+	$(CC) -Wl,-Map=$(TARGET).map -nostdlib -T$(LIBN64)/rom.ld -o $@ $(OFILES) $(LDFLAGS)
 
 %.o: %.c
 	@echo "Compiling: $<"
@@ -51,7 +52,7 @@ $(TARGET).elf: libn64 $(OFILES)
 
 .PHONY: libn64
 libn64:
-	@$(MAKE) -sC ../n64tool/libn64
+	@$(MAKE) -sC $(LIBN64)
 
 .PHONY: clean debug run
 clean:
