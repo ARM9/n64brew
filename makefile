@@ -38,7 +38,7 @@ $(TARGET).z64: $(TARGET).elf
 	$(OBJCOPY) -O binary $< $@
 	$(CHECKSUM) $(LIBN64)/header.bin $@
 
-$(TARGET).elf: libn64 $(OFILES)
+$(TARGET).elf: $(OFILES)
 	@echo "Linking: $@"
 	$(CC) -Wl,-Map=$(TARGET).map -nostdlib -T$(LIBN64)/rom.ld -o $@ $(OFILES) $(LDFLAGS)
 
