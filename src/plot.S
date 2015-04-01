@@ -11,8 +11,8 @@ plot:
 .equ color, $a2
 .equ fb,    $a3
 
-.equ tmp,   $t8
-.equ const, $t9
+.equ const, $t8
+.equ tmp,   $t9
 
     .set noat; .set noreorder
     li const, 320*2
@@ -83,9 +83,8 @@ drawLine:
     multu y1,const
 0:
     # plot(x1,y1,color,fb);
-    mflo tmp
-    # mul tmp,y1,const
     sll $at,x1,1
+    mflo tmp
     add tmp,$at
     add tmp,fb
     sh color,0(tmp)
@@ -153,64 +152,72 @@ L0:
     add tx,x1,x2
     add ty,y1,y2
     # plot(tx,ty,color,fb);
-    mul tmp,ty,const
+    multu ty,const
     sll tx,1
+    mflo tmp
     add tmp,tx
     add tmp,fb
     sh color,0(tmp)
 
     add tx,x1,y2
     add ty,y1,x2
-    mul tmp,ty,const
+    multu ty,const
     sll tx,1
+    mflo tmp
     add tmp,tx
     add tmp,fb
     sh color,0(tmp)
 
     sub tx,x1,x2
     add ty,y1,y2
-    mul tmp,ty,const
+    multu ty,const
     sll tx,1
+    mflo tmp
     add tmp,tx
     add tmp,fb
     sh color,0(tmp)
 
     sub tx,x1,y2
     add ty,y1,x2
-    mul tmp,ty,const
+    multu ty,const
     sll tx,1
+    mflo tmp
     add tmp,tx
     add tmp,fb
     sh color,0(tmp)
 
     sub tx,x1,x2
     sub ty,y1,y2
-    mul tmp,ty,const
+    multu ty,const
     sll tx,1
+    mflo tmp
     add tmp,tx
     add tmp,fb
     sh color,0(tmp)
 
     sub tx,x1,y2
     sub ty,y1,x2
-    mul tmp,ty,const
+    multu ty,const
     sll tx,1
+    mflo tmp
     add tmp,tx
     add tmp,fb
     sh color,0(tmp)
 
     add tx,x1,x2
     sub ty,y1,y2
-    mul tmp,ty,const
+    multu ty,const
     sll tx,1
+    mflo tmp
     add tmp,tx
     add tmp,fb
     sh color,0(tmp)
 
     add tx,x1,y2
     sub ty,y1,x2
-    mul tmp,ty,const
+    multu ty,const
     sll tx,1
+    mflo tmp
     add tmp,tx
     add tmp,fb
     sh color,0(tmp)
