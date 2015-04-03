@@ -53,15 +53,15 @@ int main(void)
         __stdout_index = 0;
         framebuffer = g_Screen.framebuffer;
 
-        updateJoypads(&player1_joy);
+        updateJoypads();
 
         readJoypad(0, &player1_joy);
         readJoypad(1, &player2_joy);
         line.x += player1_joy.analog_x;
-        line.x += player2_joy.analog_x;
+        line.y += player2_joy.analog_y;
 
         tri[0].x = 200+(isin(line.x+0x4000)>>7);
-        tri[1].y = 120+(isin(line.x+0x2000)>>7);
+        tri[1].y = 120+(isin(line.y+0x2000)>>7);
         tri[1].x = 180+(isin(line.x+0x1000)>>7);
         tri[2].x = 200+(isin(line.x)>>7);
         /*tri[2].x = 200+(sinf(line.x)*10.f);*/

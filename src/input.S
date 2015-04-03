@@ -51,7 +51,8 @@ readJoypad:
 .equ joy_t, $a1
 
     # t0 = _controller_state + 4 + pad_num * 8
-    la $t0, _controller_state+4
+    # la $t0, _controller_state+4
+    la $t0, (PIF_BASE<<16) + PIF_HWORD# _controller_state+4
     sll pad_num, 3
     addu $t0, pad_num
 
