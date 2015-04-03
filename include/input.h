@@ -24,7 +24,7 @@ typedef struct Joy_t {
 }Joy_t;
 
 void initJoypad();
-void updateJoypads(Joy_t *joypad);
+void updateJoypads();
 void readJoypad(unsigned pad_num, Joy_t *joypad);
 
 #endif //INPUT_H

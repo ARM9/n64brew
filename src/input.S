@@ -47,19 +47,20 @@ updateJoypads:
 readJoypad:
     .set noat; .set noreorder
 
+.equ pad_num, $a0
+.equ joy_t, $a1
+
     # t0 = _controller_state + 4 + pad_num * 8
-    li $t1, 8
-    mult $a0, $t1
     la $t0, _controller_state+4
-    mflo $t2
-    addu $t0, $t2
+    sll pad_num, 3
+    addu $t0, pad_num
 
     lhu $t1, 0($t0) # t1 = buttons
     lhu $t2, 2($t0) # t2 = low analog X, high analog Y
     nop
-    sh $t1, 0($a1)  # store buttons in Joy_t
+    sh $t1, 0(joy_t)  # store buttons in Joy_t
     jr $ra
-    sh $t2, 2($a1)  # store analog stick
+    sh $t2, 2(joy_t)  # store analog stick
     
     .size readJoypad, .-readJoypad
 

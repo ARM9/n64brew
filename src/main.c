@@ -60,6 +60,12 @@ int main(void)
         line.x += player1_joy.analog_x;
         line.x += player2_joy.analog_x;
 
+        tri[0].x = 200+(isin(line.x+0x4000)>>7);
+        tri[1].y = 120+(isin(line.x+0x2000)>>7);
+        tri[1].x = 180+(isin(line.x+0x1000)>>7);
+        tri[2].x = 200+(isin(line.x)>>7);
+        /*tri[2].x = 200+(sinf(line.x)*10.f);*/
+
     puts("1 2 3 foo bar");
     puts("hello world,.123");
     puts("  Hi !@#$%^&*()_+`-=[{\\';/:?\"|}]");
@@ -70,12 +76,6 @@ int main(void)
         }
 
         drawCircle(100,100,50,0xF800,g_Screen.framebuffer);
-
-        tri[0].x = 200+(isin(line.x+0x4000)>>7);
-        tri[1].y = 120+(isin(line.x+0x2000)>>7);
-        tri[1].x = 180+(isin(line.x+0x1000)>>7);
-        tri[2].x = 200+(isin(line.x)>>7);
-        /*tri[2].x = 200+(sinf(line.x)*10.f);*/
 /*
         tri[0].z = fixmul(tri[0].z, 0x104);
         tri[1].z = fixmul(tri[1].z, 0x102);
