@@ -45,7 +45,7 @@ int main(void)
     vec3 line = {250,250,10};
     triangle tri = {{140,140,0x180},{180,140,0x180},{160,180,0x180}};
 
-    Joy_t player1_joy;
+    Joy_t player1_joy, player2_joy;
 
     while (1) {
         waitScanline(240);
@@ -53,9 +53,12 @@ int main(void)
         __stdout_index = 0;
         framebuffer = g_Screen.framebuffer;
 
-        //line.x += 128;
-        readJoypad(&player1_joy);
+        updateJoypads(&player1_joy);
+
+        readJoypad(0, &player1_joy);
+        readJoypad(1, &player2_joy);
         line.x += player1_joy.analog_x;
+        line.x += player2_joy.analog_x;
 
     puts("1 2 3 foo bar");
     puts("hello world,.123");
