@@ -19,19 +19,27 @@ CFLAGS	= -Wall -Wextra -pedantic -O2 -std=c99 -fno-builtin -nostdinc -mgpopt -G8
 
 LDFLAGS	= -L$(LIBN64) $(LIBS)
 
-TARGET	= $(shell basename $(CURDIR))
+TARGET	:= $(shell basename $(CURDIR))
+BUILD	:= build
+SOURCES	:= src
 
-CFILES	:= $(wildcard src/*.c)
-SFILES	:= $(wildcard src/*.S)
+CFILES	:= $(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.c)))
+#$(wildcard src/*.c)
+SFILES	:= $(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.S)))
+#$(wildcard src/*.S)
 
-OFILES	:= $(CFILES:.c=.o) $(SFILES:.S=.o)
+OFILES		:= $(CFILES:%.c=build/%.o) $(SFILES:%.S=build/%.o)
+DEPFILES	:= $(OFILES:%.o=build/%.d)
 
-DEPFILES	= $(OFILES:.o=.d)
+export VPATH	:= $(foreach dir,$(SOURCES),$(CURDIR)/$(dir))
 
 #
 # Primary targets.
 #
-all: $(TARGET).z64
+all: $(BUILD) $(TARGET).z64
+
+$(BUILD):
+	@mkdir -p $@
 
 $(TARGET).z64: $(TARGET).elf
 	@echo "Building: $@"
@@ -42,11 +50,11 @@ $(TARGET).elf: $(OFILES)
 	@echo "Linking: $@"
 	$(CC) -Wl,-Map=$(TARGET).map -nostdlib -T$(LIBN64)/rom.ld -o $@ $(OFILES) $(LDFLAGS)
 
-%.o: %.c
+build/%.o: %.c
 	@echo "Compiling: $<"
 	@$(CC) $(CFLAGS) -MMD -c $< -o $@
 
-%.o: %.S
+build/%.o: %.S
 	@echo "Assembling: $<"
 	@$(AS) $(ASFLAGS) $< -o $@
 
@@ -54,10 +62,10 @@ $(TARGET).elf: $(OFILES)
 libn64:
 	@$(MAKE) -sC $(LIBN64)
 
-.PHONY: clean debug run
+.PHONY: clean debug run run2
 clean:
 	@echo "Cleaning..."
-	@rm -rf $(OFILES) $(DEPFILES) $(TARGET).map $(TARGET).elf $(TARGET).z64
+	@rm -rf $(BUILD) $(TARGET).map $(TARGET).elf $(TARGET).z64
 
 debug: all
 	$(mess) $(CURDIR)/$(TARGET).z64 -d

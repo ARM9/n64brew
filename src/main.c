@@ -5,8 +5,10 @@
 #include <string.h>
 #include <math.h>
 #include <time.h>
+
 #include "libn64.h"
 #include "dma.h"
+#include "input.h"
 #include "numbers.h"
 #include "plot.h"
 #include "vi.h"
@@ -37,16 +39,24 @@ int main(void)
     //float aaa = sinf(0.5f) + cosf(1.25f);
 
     consoleInit();
+    initJoypad();
     /*screenNTSC(&g_Screen, VI_BPP16);*/
 
     vec3 line = {250,250,10};
     triangle tri = {{140,140,0x180},{180,140,0x180},{160,180,0x180}};
+
+    Joy_t player1_joy;
 
     while (1) {
         waitScanline(240);
         clock_t t_start = get_ticks_us();
         __stdout_index = 0;
         framebuffer = g_Screen.framebuffer;
+
+        //line.x += 128;
+        readJoypad(&player1_joy);
+        line.x += player1_joy.analog_x;
+
     puts("1 2 3 foo bar");
     puts("hello world,.123");
     puts("  Hi !@#$%^&*()_+`-=[{\\';/:?\"|}]");
@@ -57,8 +67,6 @@ int main(void)
         }
 
         drawCircle(100,100,50,0xF800,g_Screen.framebuffer);
-
-        line.x += 128;
 
         tri[0].x = 200+(isin(line.x+0x4000)>>7);
         tri[1].y = 120+(isin(line.x+0x2000)>>7);
