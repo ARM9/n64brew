@@ -11,19 +11,13 @@
 #include "input.h"
 #include "numbers.h"
 #include "plot.h"
+#include "triangle.h"
+#include "vector.h"
 #include "vi.h"
 
-typedef struct vec2 {
-    int x, y;
-} vec2;
+struct Screen_t g_Screen = {320, 240, (unsigned*)0xA0100000, 320*240*2};
 
-typedef struct vec3 {
-    int x, y, z;
-} vec3;
-
-typedef vec3 triangle[3];
-
-void drawTri(vec3 tri[3]) {
+void drawTri(Vec3 tri[3]) {
     drawLine(fixdiv(tri[0].x, tri[0].z), fixdiv(tri[0].y, tri[0].z),
              fixdiv(tri[1].x, tri[1].z), fixdiv(tri[1].y, tri[1].z), 0xFE00, g_Screen.framebuffer);
     drawLine(fixdiv(tri[1].x, tri[1].z), fixdiv(tri[1].y, tri[1].z),
@@ -34,6 +28,11 @@ void drawTri(vec3 tri[3]) {
 
 extern uint8_t *framebuffer;
 extern unsigned __stdout_index;
+
+Vec3 line = {250,250,10};
+triangle tri = {{140,140,0x180},{180,140,0x180},{160,180,0x180}};
+Vec2 tri2[3] = {{200,170},{240,180},{210,210}};
+
 int main(void)
 {
     //float aaa = sinf(0.5f) + cosf(1.25f);
@@ -41,9 +40,6 @@ int main(void)
     consoleInit();
     initJoypad();
     /*screenNTSC(&g_Screen, VI_BPP16);*/
-
-    vec3 line = {250,250,10};
-    triangle tri = {{140,140,0x180},{180,140,0x180},{160,180,0x180}};
 
     Joy_t player1_joy, player2_joy;
 
@@ -60,15 +56,18 @@ int main(void)
         line.x += player1_joy.analog_x;
         line.y += player2_joy.analog_y;
 
+    puts("1 2 3 foo bar");
+    puts("hello world,.123");
+    puts("  Hi !@#$%^&*()_+`-=[{\\';/:?\"|}]");
+
         tri[0].x = 200+(isin(line.x+0x4000)>>7);
         tri[1].y = 120+(isin(line.y+0x2000)>>7);
         tri[1].x = 180+(isin(line.x+0x1000)>>7);
         tri[2].x = 200+(isin(line.x)>>7);
         /*tri[2].x = 200+(sinf(line.x)*10.f);*/
 
-    puts("1 2 3 foo bar");
-    puts("hello world,.123");
-    puts("  Hi !@#$%^&*()_+`-=[{\\';/:?\"|}]");
+        tri2[0].x = 200+isin(line.x+0x4000)>>7;
+        fillTriangle(tri2, 0xFEEDBACC);
 
         drawTri(tri);
         for(int i=0x1000;i-=8;) {

@@ -23,6 +23,7 @@ initJoypad:
 updateJoypads:
     .set noat; .set noreorder
 
+ # maybe move this to readJoypad?
     lui $t0, PIF_BASE # A0 = PIF Base Register ($BFC00000)
     lui $t1, SI_BASE # A1 = SI Base Register ($A4800000)
     la $t2, _controller_state # A2 = _controller_state Offset

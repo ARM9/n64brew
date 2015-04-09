@@ -15,11 +15,12 @@ plot:
 .equ tmp,   $t9
 
     .set noat; .set noreorder
-    li const, 320*2
-    multu y, const
-    sll $at, x, 1
-    mflo tmp
-    add tmp, $at
+    # t0 = y*320*2
+    sll $at, y, 7
+    sll y, y, 9
+    addu tmp, $at, y
+    sll $v0, x, 1
+    add tmp, $v0
     add tmp, fb
     jr $ra
     sh color, 0(tmp)
@@ -27,7 +28,7 @@ plot:
     .align 4
     .global drawLine
     .type   drawLine, @function
-# void drawLine(int x1, int y1, int x2, int y2, uint16_t color, unsigned *framebuffer);
+# void drawLine(int x1, int y1, int x2, int y2, unsigned color, unsigned *framebuffer);
 drawLine:
 .equ x1, $a0
 .equ y1, $a1
@@ -118,7 +119,7 @@ drawLine:
     .align 4
     .global drawCircle
     .type drawCircle, @function
-# void drawCircle(int x1, int y1, unsigned radius, uint16_t color, unsigned *framebuffer);
+# void drawCircle(int x1, int y1, unsigned radius, unsigned color, unsigned *framebuffer);
 drawCircle:
 .equ x1,    $a0
 .equ y1,    $a1

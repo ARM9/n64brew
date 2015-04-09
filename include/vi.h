@@ -12,7 +12,7 @@ struct Screen_t {
     unsigned size;
 } Screen_t;
 
-struct Screen_t g_Screen = {320, 240, (unsigned*)0xA0100000, 320*240*2};
+extern struct Screen_t g_Screen;
 
 extern void screenNTSC(const struct Screen_t *screen, unsigned status);
 extern void swapFramebuffer(struct Screen_t *screen);
