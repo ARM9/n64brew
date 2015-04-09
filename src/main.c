@@ -66,10 +66,16 @@ int main(void)
         tri[2].x = 200+(isin(line.x)>>7);
         /*tri[2].x = 200+(sinf(line.x)*10.f);*/
 
-        tri2[0].x = 200+isin(line.x+0x4000)>>7;
-        fillTriangle(tri2, 0xFEEDBACC);
+        tri2[0].x = 150+(isin(line.x+0x4000)>>7);
+        tri2[0].y = 150+(isin(line.x+0x2000)>>7);
+        tri2[1].x = 200+(isin(line.x+0x8000)>>7);
+        tri2[1].y = 200+(isin(line.x+0x4000)>>7);
+        tri2[2].x = 150+(isin(line.x+0xa000)>>7);
+        tri2[2].y = 200+(isin(line.x+0x6000)>>7);
 
+        fillTriangle(tri2, 0xFEEDBACC);
         drawTri(tri);
+
         for(int i=0x1000;i-=8;) {
             drawLine(100+(isin(i+line.x)>>5)/line.z, 100+(icos(i+line.x)>>5)/line.z, 100, 100, 0xFE00, g_Screen.framebuffer);
         }

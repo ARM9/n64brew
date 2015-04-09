@@ -24,8 +24,13 @@ void sort_vertices_asc_y(Vec2 v[3])
 
 void drawHorizontalLine(int x1, int y1, int x2, unsigned color, unsigned *framebuffer)
 {
-    for(;x2 <= x1; x2++){
-        plot(x2, y1, color, framebuffer);
+    if(x2 < x1){
+        int tmp = x1;
+        x1 = x2;
+        x2 = tmp;
+    }
+    for(;x1 <= x2; x1++){
+        plot(x1, y1, color, framebuffer);
     }
 }
 
