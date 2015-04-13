@@ -60,7 +60,8 @@ void fillTriangle(Vec2 v[3], u16 color, u16 *framebuffer)
     }
 }
 
-void fillTrapezoid(Vec2 v[4], u16 color, u16 *framebuffer)
+// concave trapezoids not allowed
+/*void fillTrapezoid(Vec2 v[4], u16 color, u16 *framebuffer)
 {
     int max_y = max(v[0].y, max(v[1].y, max(v[2].y, v[3].y)));
     int min_y = min(v[0].y, min(v[1].y, min(v[2].y, v[3].y)));
@@ -80,4 +81,4 @@ void fillTrapezoid(Vec2 v[4], u16 color, u16 *framebuffer)
             for(int x = g_EdgeBufferL[y]; x < g_EdgeBufferR[y]; x++)
                 plot(x, y, color, framebuffer);
     }
-}
+}*/

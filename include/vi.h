@@ -11,15 +11,15 @@
 #define VI_BPP32 0x0003 // VI Status/Control: Color Depth 32BPP R8/G8/B8/A8 (Bit 0..1)
 
 struct Screen_t {
-    unsigned width, height;
-    uint16_t *framebuffer;
-    unsigned size;
+    u32 width, height;
+    u16 *framebuffer;
+    u32 size;
 } Screen_t;
 
 extern struct Screen_t g_Screen;
 
-extern void screenNTSC(const struct Screen_t *screen, unsigned status);
+extern void screenNTSC(const struct Screen_t *screen, u32 status);
 extern void swapFramebuffer(struct Screen_t *screen);
-extern void waitScanline(unsigned scanline);
+extern void waitScanline(u32 scanline);
 
 #endif //VI_H

@@ -2,7 +2,7 @@
 #include "numbers.h"
 #include "vi.h"
 
-void plot(int x, int y, uint16_t color, uint16_t *framebuffer)
+void plot(int x, int y, u16 color, u16 *framebuffer)
 {
     /*__asm__ __volatile__ (
     "sll $v0, %[y1], 7\n"
