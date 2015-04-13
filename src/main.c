@@ -11,7 +11,7 @@
 #include "input.h"
 #include "numbers.h"
 #include "plot.h"
-#include "triangle.h"
+#include "polygon.h"
 #include "vector.h"
 #include "vi.h"
 
