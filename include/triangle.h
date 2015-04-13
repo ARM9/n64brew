@@ -2,7 +2,6 @@
 #define TRIANGLE_H
 #include "vector.h"
 
-void sortVerticesAscY(Vec2 v[3]);
 void edgeDetect(Vec2 v0, Vec2 v1);
 void fillTriangle(Vec2 v[3], unsigned color, unsigned *framebuffer);
 

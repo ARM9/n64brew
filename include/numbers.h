@@ -13,6 +13,9 @@ typedef signed short s16;
 typedef signed int s32;
 typedef signed long long s64;
 
+#define max(a, b) (a > b ? a : b)
+#define min(a, b) (a < b ? a : b)
+
 typedef s32 fixed;
 
 #define FIXED_BITS  8

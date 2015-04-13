@@ -1,30 +1,11 @@
-#include "triangle.h"
+#include "numbers.h"
 #include "plot.h"
+#include "triangle.h"
 #include "vector.h"
 #include "vi.h"
 
 int g_EdgeBufferL[HEIGHT + 1];
 int g_EdgeBufferR[HEIGHT + 1];
-
-void sortVerticesAscY(Vec2 v[3])
-{
-    Vec2 vtmp;
-    if(v[0].y > v[1].y){
-        vtmp = v[0];
-        v[0] = v[1];
-        v[1] = vtmp;
-    }
-    if(v[0].y > v[2].y){
-        vtmp = v[0];
-        v[0] = v[2];
-        v[2] = vtmp;
-    }
-    if(v[1].y > v[2].y){
-        vtmp = v[1];
-        v[1] = v[2];
-        v[2] = vtmp;
-    }
-}
 
 void edgeDetect(Vec2 v0, Vec2 v1)
 {
@@ -61,9 +42,8 @@ void edgeDetect(Vec2 v0, Vec2 v1)
 void fillTriangle(Vec2 v[3], unsigned color, unsigned *framebuffer)
 {
     // possibly faster to just not sort the vectors to find min/max y
-    sortVerticesAscY(v);
-    int min_y = v[0].y;
-    int max_y = v[2].y;
+    int max_y = max(v[0].y, max(v[1].y, v[2].y));
+    int min_y = min(v[0].y, min(v[1].y, v[2].y));
 
     for(int i = min_y; i < max_y; i++){
         g_EdgeBufferL[i] = WIDTH;
