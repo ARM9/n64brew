@@ -15,7 +15,7 @@
 #include "vector.h"
 #include "vi.h"
 
-struct Screen_t g_Screen = {320, 240, (unsigned*)0xA0100000, 320*240*2};
+struct Screen_t g_Screen = {WIDTH, HEIGHT, (unsigned*)0xA0100000, 320*240*2};
 
 void drawTri(Vec3 tri[3]) {
     drawLine(fixdiv(tri[0].x, tri[0].z), fixdiv(tri[0].y, tri[0].z),
@@ -30,7 +30,7 @@ extern uint8_t *framebuffer;
 extern unsigned __stdout_index;
 
 Vec3 line = {250,250,10};
-triangle tri = {{140,140,0x180},{180,140,0x180},{160,180,0x180}};
+Vec3 tri[3] = {{140,140,0x180},{180,140,0x180},{160,180,0x180}};
 Vec2 tri2[3] = {{200,170},{240,180},{210,210}};
 
 int main(void)
@@ -38,7 +38,7 @@ int main(void)
     //float aaa = sinf(0.5f) + cosf(1.25f);
 
     consoleInit();
-    initJoypad();
+    /*initJoypad();*/
     /*screenNTSC(&g_Screen, VI_BPP16);*/
 
     Joy_t player1_joy, player2_joy;
@@ -49,12 +49,12 @@ int main(void)
         __stdout_index = 0;
         framebuffer = g_Screen.framebuffer;
 
-        updateJoypads();
+        /*updateJoypads();
 
         readJoypad(0, &player1_joy);
-        readJoypad(1, &player2_joy);
-        line.x += player1_joy.analog_x;
-        line.y += player2_joy.analog_y;
+        readJoypad(1, &player2_joy);*/
+        line.x += 128;//player1_joy.analog_x;
+        line.y += 128;//player2_joy.analog_y;
 
     puts("1 2 3 foo bar");
     puts("hello world,.123");
@@ -73,7 +73,7 @@ int main(void)
         tri2[2].x = 150+(isin(line.x+0xa000)>>7);
         tri2[2].y = 200+(isin(line.x+0x6000)>>7);
 
-        fillTriangle(tri2, 0xFEEDBACC);
+        fillTriangle(tri2, 0xBADA55, g_Screen.framebuffer);
         drawTri(tri);
 
         for(int i=0x1000;i-=8;) {
@@ -86,10 +86,6 @@ int main(void)
         tri[1].z = fixmul(tri[1].z, 0x102);
         tri[2].z = fixmul(tri[2].z, 0x101);
 */
-        drawLine(161,120,161,120,0x7ffe, g_Screen.framebuffer);
-        plot(160,120,0x7ffe,g_Screen.framebuffer);
-        plot(160,121,0x7ffe,g_Screen.framebuffer);
-        plot(160,122,0x7ffe,g_Screen.framebuffer);
 
         clock_t t_end = get_ticks_us();
         clock_t dt = t_end - t_start;

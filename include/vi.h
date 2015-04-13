@@ -1,6 +1,9 @@
 #ifndef VI_H
 #define VI_H
 
+#define WIDTH 320
+#define HEIGHT 240
+
 /* VI */
 #define VI_BPP0 0x0000 // VI Status/Control: Color Depth Blank (No Data Or Sync) (Bit 0..1)
 #define VI_BPP16 0x0002 // VI Status/Control: Color Depth 16BPP R5/G5/B5/A1 (Bit 0..1)

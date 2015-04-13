@@ -85,10 +85,9 @@ swapFramebuffer:
 
     sw fb_ptr,VI_ORIGIN(vi_ptr) # Store Origin To VI Origin Register (0xA4400004)
     xor tmp,fb_ptr,fb_size
-    sw tmp,8(screen_ptr)
 
     jr $ra
-    nop 
+    sw tmp,8(screen_ptr)
 
     .size swapFramebuffer,.-swapFramebuffer
 
