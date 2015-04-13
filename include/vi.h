@@ -1,5 +1,6 @@
 #ifndef VI_H
 #define VI_H
+#include "numbers.h"
 
 #define WIDTH 320
 #define HEIGHT 240
@@ -11,7 +12,7 @@
 
 struct Screen_t {
     unsigned width, height;
-    unsigned *framebuffer;
+    uint16_t *framebuffer;
     unsigned size;
 } Screen_t;
 

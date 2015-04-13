@@ -1,6 +1,6 @@
 #include "numbers.h"
 #include "plot.h"
-#include "triangle.h"
+#include "polygon.h"
 #include "vector.h"
 #include "vi.h"
 
@@ -39,9 +39,8 @@ void edgeDetect(Vec2 v0, Vec2 v1)
     }
 }
 
-void fillTriangle(Vec2 v[3], unsigned color, unsigned *framebuffer)
+void fillTriangle(Vec2 v[3], u16 color, u16 *framebuffer)
 {
-    // possibly faster to just not sort the vectors to find min/max y
     int max_y = max(v[0].y, max(v[1].y, v[2].y));
     int min_y = min(v[0].y, min(v[1].y, v[2].y));
 
@@ -49,6 +48,7 @@ void fillTriangle(Vec2 v[3], unsigned color, unsigned *framebuffer)
         g_EdgeBufferL[i] = WIDTH;
         g_EdgeBufferR[i] = 0;
     }
+
     edgeDetect(v[0], v[1]);
     edgeDetect(v[1], v[2]);
     edgeDetect(v[2], v[0]);
@@ -60,3 +60,24 @@ void fillTriangle(Vec2 v[3], unsigned color, unsigned *framebuffer)
     }
 }
 
+void fillTrapezoid(Vec2 v[4], u16 color, u16 *framebuffer)
+{
+    int max_y = max(v[0].y, max(v[1].y, max(v[2].y, v[3].y)));
+    int min_y = min(v[0].y, min(v[1].y, min(v[2].y, v[3].y)));
+
+    for(int i = 0; i < HEIGHT; i++){
+        g_EdgeBufferL[i] = WIDTH;
+        g_EdgeBufferR[i] = 0;
+    }
+
+    edgeDetect(v[0], v[1]);
+    edgeDetect(v[1], v[2]);
+    edgeDetect(v[2], v[3]);
+    edgeDetect(v[3], v[0]);
+
+    for(int y = min_y; y < max_y; y++){
+        if(g_EdgeBufferL[y] <= g_EdgeBufferR[y])
+            for(int x = g_EdgeBufferL[y]; x < g_EdgeBufferR[y]; x++)
+                plot(x, y, color, framebuffer);
+    }
+}

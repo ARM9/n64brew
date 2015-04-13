@@ -30,8 +30,10 @@ extern uint8_t *framebuffer;
 extern unsigned __stdout_index;
 
 Vec3 line = {250,250,10};
+Vec2 quad[3] = {{190,170},{240,190},{230,210},{200,200}};
 Vec3 tri[3] = {{140,140,0x180},{180,140,0x180},{160,180,0x180}};
 Vec2 tri2[3] = {{200,170},{240,180},{210,210}};
+
 
 int main(void)
 {
@@ -73,7 +75,10 @@ int main(void)
         tri2[2].x = 150+(isin(line.x+0xa000)>>7);
         tri2[2].y = 200+(isin(line.x+0x6000)>>7);
 
-        fillTriangle(tri2, 0xBADA55, g_Screen.framebuffer);
+        fillTriangle(tri2, 0xDA55, g_Screen.framebuffer);
+
+        fillTrapezoid(quad, 0x594B, g_Screen.framebuffer);
+
         drawTri(tri);
 
         for(int i=0x1000;i-=8;) {
