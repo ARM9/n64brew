@@ -34,7 +34,6 @@ Vec2 quad[4] = {{190,170},{240,190},{230,210},{200,200}};
 Vec3 tri[3] = {{140,140,0x180},{180,140,0x180},{160,180,0x180}};
 Vec2 tri2[3] = {{200,170},{240,180},{210,210}};
 
-
 int main(void)
 {
     //float aaa = sinf(0.5f) + cosf(1.25f);
@@ -72,10 +71,28 @@ int main(void)
         tri2[0].y = 150+(isin(line.x+0x2000)>>7);
         tri2[1].x = 200+(isin(line.x+0x8000)>>7);
         tri2[1].y = 200+(isin(line.x+0x4000)>>7);
-        tri2[2].x = 150+(isin(line.x+0xa000)>>7);
-        tri2[2].y = 200+(isin(line.x+0x6000)>>7);
+        tri2[2].x = 350+(isin(line.x+0xa000)>>7);
+        tri2[2].y = 300+(isin(line.x+0x6000)>>7);
 
         fillTriangle(tri2, 0xDA55, g_Screen.framebuffer);
+
+        tri2[0].x = 100;
+        tri2[0].y = -50;
+        tri2[1].x = 150;
+        tri2[1].y = 100;
+        tri2[2].x = 50;
+        tri2[2].y = 100;
+
+        fillTriangle(tri2, 0xDA55, g_Screen.framebuffer);
+
+        tri2[0].x = 100;
+        tri2[0].y = -50;
+        tri2[1].x = 138;
+        tri2[1].y = 75;
+        tri2[2].x = 62;
+        tri2[2].y = 75;
+
+        fillTriangle(tri2, 0x0A50, g_Screen.framebuffer);
 
         drawTri(tri);
 
