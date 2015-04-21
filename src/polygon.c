@@ -33,10 +33,11 @@ void edgeDetect(Vec2 v0, Vec2 v1)
     
     for(int i = f2i(y1); i <= f2i(y2); i++){
         if(i > 0 && i < HEIGHT){
-            if(f2i(x1) < g_EdgeBufferL[i])
-                g_EdgeBufferL[i] = f2i(x1);
-            if(f2i(x1) > g_EdgeBufferR[i])
-                g_EdgeBufferR[i] = f2i(x1);
+            int tx = f2i(x1);
+            if(tx < g_EdgeBufferL[i])
+                g_EdgeBufferL[i] = imax(0, tx);
+            if(tx > g_EdgeBufferR[i])
+                g_EdgeBufferR[i] = imin(WIDTH, tx);
         }
         x1 += dx;
     }

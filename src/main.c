@@ -67,7 +67,7 @@ int main(void)
         tri[2].x = 200+(isin(line.x)>>7);
         /*tri[2].x = 200+(sinf(line.x)*10.f);*/
 
-        tri2[0].x = 150+(isin(line.x+0x4000)>>7);
+        tri2[0].x = 350+(isin(line.x+0x4000)>>7);
         tri2[0].y = 150+(isin(line.x+0x2000)>>7);
         tri2[1].x = 200+(isin(line.x+0x8000)>>7);
         tri2[1].y = 200+(isin(line.x+0x4000)>>7);
