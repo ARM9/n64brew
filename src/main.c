@@ -73,7 +73,6 @@ int main(void)
         tri2[1].y = 200+(isin(line.x+0x4000)>>7);
         tri2[2].x = 350+(isin(line.x+0xa000)>>7);
         tri2[2].y = 300+(isin(line.x+0x6000)>>7);
-
         fillTriangle(tri2, 0xDA55, g_Screen.framebuffer);
 
         tri2[0].x = 100;
@@ -82,7 +81,6 @@ int main(void)
         tri2[1].y = 100;
         tri2[2].x = 50;
         tri2[2].y = 100;
-
         fillTriangle(tri2, 0xDA55, g_Screen.framebuffer);
 
         tri2[0].x = 100;
@@ -91,8 +89,15 @@ int main(void)
         tri2[1].y = 75;
         tri2[2].x = 62;
         tri2[2].y = 75;
-
         fillTriangle(tri2, 0x0A50, g_Screen.framebuffer);
+
+        tri2[0].x = -50+(isin(line.x+0x4000)>>7);
+        tri2[0].y = -50+(isin(line.x+0x2000)>>7);
+        tri2[1].x = 50+(isin(line.x+0x8000)>>7);
+        tri2[1].y = 50+(isin(line.x+0x4000)>>7);
+        tri2[2].x = -50+(isin(line.x+0xa000)>>7);
+        tri2[2].y = 50+(isin(line.x+0x6000)>>7);
+        fillTriangle(tri2, 0x0f00, g_Screen.framebuffer);
 
         drawTri(tri);
 
