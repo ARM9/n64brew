@@ -3,7 +3,7 @@
 
 #include "numbers.h"
 
-typedef struct Mat2 {
+typedef struct {
     fixed n11, n12,
           n21, n22;
 } Mat2;

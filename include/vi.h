@@ -14,7 +14,7 @@ struct Screen_t {
     u32 width, height;
     u16 *framebuffer;
     u32 size;
-} Screen_t;
+};
 
 extern struct Screen_t g_Screen;
 

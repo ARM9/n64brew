@@ -18,10 +18,10 @@
 #define JOY_B       0x4000 // PIF HWORD: B
 #define JOY_A       0x8000 // PIF HWORD: A
 
-typedef struct Joy_t {
+typedef struct {
     uint16_t buttons;
     int8_t analog_x, analog_y;
-}Joy_t;
+} Joy_t;
 
 void initJoypad();
 void updateJoypads();

@@ -44,8 +44,8 @@ drawLine:
 .equ sy,    $t5
 .equ err,   $t6
 .equ e2,    $t7
-.equ const, $t8
-.equ tmp,   $t9
+.equ tmp,   $t8
+.equ tmp2,  $t9
 
     .set at
     .set noreorder
@@ -80,14 +80,16 @@ drawLine:
      sub tmp,$0,dy
     move tmp,dx
 0:  sra err,tmp,1
-    li const,320*2
+
     # while(1){
-    multu y1,const
+    sll tmp, y1, 7
 0:
     # plot(x1,y1,color,fb);
-    sll $at,x1,1
-    mflo tmp
-    add tmp,$at
+    sll tmp2, y1, 9
+    addu tmp, tmp2
+
+    sll tmp2,x1,1
+    add tmp,tmp2
     add tmp,fb
     sh color,0(tmp)
     # if(x1==x2 && y1==y2) break;
@@ -108,7 +110,7 @@ drawLine:
     # if (-e2 < dx) { err -= dy; x1 += sx; }
     # sub tmp,$0,e2
     bge tmp,dx,0b
-     multu y1,const
+     sll tmp, y1, 7
     sub err,dy
     # }
     j 0b

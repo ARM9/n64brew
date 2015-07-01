@@ -2,11 +2,11 @@
 #define VECTOR_H
 #include "numbers.h"
 
-typedef struct Vec2 {
+typedef struct {
     int x, y;
 } Vec2;
 
-typedef struct Vec3 {
+typedef struct {
     int x, y, z;
 } Vec3;
 
