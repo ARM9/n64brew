@@ -2,15 +2,15 @@ PATH	:= $(PATH):$(DEVKITMIPS)/bin
 LIBN64	:= $(DEVKITMIPS)/n64tool/libn64
 EMUDIR	:= $(DEVKITPRO)/emulators
 
-AS		= mips64-elf-as
-AR		= mips64-elf-gcc-ar
-CC		= mips64-elf-gcc
-LD		= mips64-elf-ld
-OBJCOPY	= mips64-elf-objcopy
-OBJDUMP	= mips64-elf-objdump
-CHECKSUM	= checksum
-cen64	:= $(EMUDIR)/n64/cen64/cen64 $(EMUDIR)/n64/cen64/pifrom.bin
-mess		:=	cd $(EMUDIR)/mess && ./mess64 n64 -w -cart
+AS		:= mips64-elf-as
+AR		:= mips64-elf-gcc-ar
+CC		:= mips64-elf-gcc
+LD		:= mips64-elf-ld
+OBJCOPY		:= mips64-elf-objcopy
+OBJDUMP		:= mips64-elf-objdump
+CHECKSUM	:= checksum
+cen64		:= $(EMUDIR)/n64/cen64/cen64 $(EMUDIR)/n64/cen64/pifrom.bin
+mess		:= cd $(EMUDIR)/mess && ./mess64 n64 -w -cart
 
 LIBS	= -ln64
 
@@ -76,5 +76,5 @@ run: all
 run2: all
 	$(mess) $(CURDIR)/$(TARGET).z64
 
-#-include $(DEPFILES)
+-include $(DEPFILES)
 
