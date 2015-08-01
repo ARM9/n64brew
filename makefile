@@ -29,7 +29,7 @@ SFILES	:= $(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.S)))
 #$(wildcard src/*.S)
 
 OFILES		:= $(CFILES:%.c=build/%.o) $(SFILES:%.S=build/%.o)
-DEPFILES	:= $(OFILES:%.o=build/%.d)
+DEPFILES	:= $(OFILES:%.o=%.d)
 
 export VPATH	:= $(foreach dir,$(SOURCES),$(CURDIR)/$(dir))
 
