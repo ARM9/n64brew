@@ -5,38 +5,43 @@ EMUDIR	:= $(DEVKITPRO)/emulators
 AS		:= mips64-elf-as
 AR		:= mips64-elf-gcc-ar
 CC		:= mips64-elf-gcc
-LD		:= mips64-elf-ld
 OBJCOPY		:= mips64-elf-objcopy
 OBJDUMP		:= mips64-elf-objdump
 CHECKSUM	:= checksum
-cen64		:= $(EMUDIR)/n64/cen64/cen64 $(EMUDIR)/n64/cen64/pifrom.bin
-mess		:= cd $(EMUDIR)/mess && ./mess64 n64 -w -cart
-
-LIBS	= -ln64
-
-ASFLAGS	= -march=vr4300 -Iinclude -I$(LIBN64)/include
-CFLAGS	= -Wall -Wextra -pedantic -O2 -std=c99 -fno-builtin -nostdinc -mgpopt -G8 -mno-extern-sdata -march=vr4300 -pipe -flto -ffat-lto-objects -Iinclude -I$(LIBN64)/include -fcall-saved-t2 -fcall-saved-t3 -fcall-saved-t4 -fcall-saved-t5 -fcall-saved-t6 -fcall-saved-t7 -fcall-saved-t8 -fcall-saved-t9
-
-LDFLAGS	= -L$(LIBN64) $(LIBS)
+CEN64		:= $(EMUDIR)/n64/cen64/cen64 $(EMUDIR)/n64/cen64/pifrom.bin
 
 TARGET	:= $(shell basename $(CURDIR))
 BUILD	:= build
 SOURCES	:= src
 
+LIBS	:= -ln64
+
+ASFLAGS	:= -march=vr4300 -Iinclude -I$(LIBN64)/include
+CFLAGS	:= -Wall -Wextra -pedantic -O2 -std=c99 -fno-builtin -nostdinc -mgpopt -G8 -mno-extern-sdata -march=vr4300 -pipe -flto -ffat-lto-objects -Iinclude -I$(LIBN64)/include -fcall-saved-t2 -fcall-saved-t3 -fcall-saved-t4 -fcall-saved-t5 -fcall-saved-t6 -fcall-saved-t7 -fcall-saved-t8 -fcall-saved-t9
+
+LDFLAGS	:= -L$(LIBN64) -Wl,-Map=$(TARGET).map -nostdlib -T$(LIBN64)/rom.ld 
+
 CFILES	:= $(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.c)))
-#$(wildcard src/*.c)
 SFILES	:= $(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.S)))
-#$(wildcard src/*.S)
 
 OFILES		:= $(CFILES:%.c=build/%.o) $(SFILES:%.S=build/%.o)
-DEPFILES	:= $(OFILES:%.o=%.d)
+DEPFILES	:= $(OFILES:.o=.d)
 
 export VPATH	:= $(foreach dir,$(SOURCES),$(CURDIR)/$(dir))
 
-#
-# Primary targets.
-#
-all: $(BUILD) $(TARGET).z64
+.PHONY: all clean debug release run
+
+all: release
+
+debug: CFLAGS	+= -g -DDEBUG
+debug: ASFLAGS	+= -g --defsym DEBUG=1
+debug: LDFLAGS	+= -g
+debug: $(TARGET).z64
+
+release: CFLAGS		+= 
+release: ASFLAGS	+= 
+release: LDFLAGS	+= 
+release: $(TARGET).z64
 
 $(BUILD):
 	@mkdir -p $@
@@ -46,35 +51,25 @@ $(TARGET).z64: $(TARGET).elf
 	$(OBJCOPY) -O binary $< $@
 	$(CHECKSUM) $(LIBN64)/header.bin $@
 
-$(TARGET).elf: $(OFILES)
+$(TARGET).elf: $(BUILD) $(OFILES)
 	@echo "Linking: $@"
-	$(CC) -Wl,-Map=$(TARGET).map -nostdlib -T$(LIBN64)/rom.ld -o $@ $(OFILES) $(LDFLAGS)
+	$(CC) $(LDFLAGS) -o $@ $(OFILES) $(LIBS) 
 
 build/%.o: %.c
-	@echo "Compiling: $<"
-	@$(CC) $(CFLAGS) -MMD -c $< -o $@
+	$(CC) $(CFLAGS) -MMD -c $< -o $@
 
 build/%.o: %.S
-	@echo "Assembling: $<"
-	@$(AS) $(ASFLAGS) $< -o $@
+	$(AS) $(ASFLAGS) --MD $(patsubst %.o,%.d,$@) $< -o $@
+
+clean:
+	rm -rf $(BUILD) $(TARGET).map $(TARGET).elf $(TARGET).z64
+
+run: all
+	$(CEN64) $(CURDIR)/$(TARGET).z64
 
 .PHONY: libn64
 libn64:
 	@$(MAKE) -sC $(LIBN64)
-
-.PHONY: clean debug run run2
-clean:
-	@echo "Cleaning..."
-	@rm -rf $(BUILD) $(TARGET).map $(TARGET).elf $(TARGET).z64
-
-debug: all
-	$(mess) $(CURDIR)/$(TARGET).z64 -d
-
-run: all
-	$(cen64) $(CURDIR)/$(TARGET).z64
-
-run2: all
-	$(mess) $(CURDIR)/$(TARGET).z64
 
 -include $(DEPFILES)
 
