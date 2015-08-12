@@ -15,7 +15,7 @@
 #include "vector.h"
 #include "vi.h"
 
-struct Screen_t g_Screen = {WIDTH, HEIGHT, (u16*)0xA0100000, 320*240*2};
+struct Screen_t g_Screen = {FB_WIDTH, FB_HEIGHT, (u16*)0xA0100000, 320*240*2};
 
 void drawTri(Vec3 tri[3]) {
     drawLine(fixdiv(tri[0].x, tri[0].z), fixdiv(tri[0].y, tri[0].z),
@@ -42,7 +42,7 @@ int main(void)
     /*initJoypad();*/
     /*screenNTSC(&g_Screen, VI_BPP16);*/
 
-    Joy_t player1_joy, player2_joy;
+    Joypad_t player1_joy, player2_joy;
 
     while (1) {
         waitScanline(240);

@@ -4,8 +4,8 @@
 #include "vector.h"
 #include "vi.h"
 
-int g_EdgeBufferL[HEIGHT + 1];
-int g_EdgeBufferR[HEIGHT + 1];
+int g_EdgeBufferL[FB_HEIGHT + 1];
+int g_EdgeBufferR[FB_HEIGHT + 1];
 
 void edgeDetect(Vec2 v0, Vec2 v1)
 {
@@ -32,12 +32,12 @@ void edgeDetect(Vec2 v0, Vec2 v1)
     }
     
     for(int i = f2i(y1); i <= f2i(y2); i++){
-        if(i > 0 && i < HEIGHT){
+        if(i > 0 && i < FB_HEIGHT){
             int tx = f2i(x1);
             if(tx < g_EdgeBufferL[i])
                 g_EdgeBufferL[i] = imax(0, tx);
             if(tx > g_EdgeBufferR[i])
-                g_EdgeBufferR[i] = imin(WIDTH, tx);
+                g_EdgeBufferR[i] = imin(FB_WIDTH, tx);
         }
         x1 += dx;
     }
@@ -45,11 +45,11 @@ void edgeDetect(Vec2 v0, Vec2 v1)
 
 void fillTriangle(Vec2 v[3], u16 color, u16 *framebuffer)
 {
-    int max_y = imax(0, imin(HEIGHT, imax(v[0].y, imax(v[1].y, v[2].y))));
-    int min_y = imax(0, imin(HEIGHT, imin(v[0].y, imin(v[1].y, v[2].y))));
+    int max_y = imax(0, imin(FB_HEIGHT, imax(v[0].y, imax(v[1].y, v[2].y))));
+    int min_y = imax(0, imin(FB_HEIGHT, imin(v[0].y, imin(v[1].y, v[2].y))));
 
     for(int i = min_y; i < max_y; i++){
-        g_EdgeBufferL[i] = WIDTH;
+        g_EdgeBufferL[i] = FB_WIDTH;
         g_EdgeBufferR[i] = 0;
     }
 

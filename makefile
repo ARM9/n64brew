@@ -17,7 +17,7 @@ SOURCES	:= src
 LIBS	:= -ln64
 
 ASFLAGS	:= -march=vr4300 -Iinclude -I$(LIBN64)/include
-CFLAGS	:= -Wall -Wextra -pedantic -O2 -std=c99 -fno-builtin -nostdinc -mgpopt -G8 -mno-extern-sdata -march=vr4300 -pipe -flto -ffat-lto-objects -Iinclude -I$(LIBN64)/include -fcall-saved-t2 -fcall-saved-t3 -fcall-saved-t4 -fcall-saved-t5 -fcall-saved-t6 -fcall-saved-t7 -fcall-saved-t8 -fcall-saved-t9
+CFLAGS	:= -Wall -Wextra -pedantic -O2 -std=c99 -fno-builtin -nostdinc -mgpopt -G8 -mno-extern-sdata -march=vr4300 -pipe -flto -ffat-lto-objects -Iinclude -I$(LIBN64)/include
 
 LDFLAGS	:= -L$(LIBN64) -Wl,-Map=$(TARGET).map -nostdlib -T$(LIBN64)/rom.ld 
 
@@ -59,7 +59,7 @@ build/%.o: %.c
 	$(CC) $(CFLAGS) -MMD -c $< -o $@
 
 build/%.o: %.S
-	$(AS) $(ASFLAGS) --MD $(patsubst %.o,%.d,$@) $< -o $@
+	$(CC) $(ASFLAGS) -MMD -c $< -o $@
 
 clean:
 	rm -rf $(BUILD) $(TARGET).map $(TARGET).elf $(TARGET).z64

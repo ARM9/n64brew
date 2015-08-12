@@ -2,8 +2,8 @@
 #define VI_H
 #include "numbers.h"
 
-#define WIDTH 320
-#define HEIGHT 240
+#define FB_WIDTH 320
+#define FB_HEIGHT 240
 
 /* VI */
 #define VI_BPP0 0x0000 // VI Status/Control: Color Depth Blank (No Data Or Sync) (Bit 0..1)

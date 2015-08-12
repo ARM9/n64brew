@@ -19,5 +19,5 @@ inline void plot(int x, int y, u16 color, u16 *framebuffer)
     [fb] "r" (framebuffer)
     :"v0", "v1", "t0"
     );*/
-    framebuffer[y * WIDTH + x] = color;
+    framebuffer[y * FB_WIDTH + x] = color;
 }

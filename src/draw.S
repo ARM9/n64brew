@@ -1,35 +1,35 @@
 
 
-    #.text
-    #.align 4
-    #.global plot
-    #.type plot, @function
-## void plot(int x, int y, unsigned color, unsigned *framebuffer)
-#plot:
-#.equ x,     $a0
-#.equ y,     $a1
-#.equ color, $a2
-#.equ fb,    $a3
+    //.text
+    //.align 4
+    //.global plot
+    //.type plot, @function
+// void plot(int x, int y, unsigned color, unsigned *framebuffer)
+//plot:
+//.equ x,     $a0
+//.equ y,     $a1
+//.equ color, $a2
+//.equ fb,    $a3
 
-#.equ const, $t8
-#.equ tmp,   $t9
+//.equ const, $t8
+//.equ tmp,   $t9
 
-    #.set noat; .set noreorder
-    ## at = y*320*2
-    #sll $at, y, 7
-    #sll y, y, 9
-    #addu tmp, $at, y
-    #sll $v0, x, 1
-    #add tmp, $v0
-    #add tmp, fb
-    #jr $ra
-    #sh color, 0(tmp)
+    //.set noat; .set noreorder
+    // at = y*320*2
+    //sll $at, y, 7
+    //sll y, y, 9
+    //addu tmp, $at, y
+    //sll $v0, x, 1
+    //add tmp, $v0
+    //add tmp, fb
+    //jr $ra
+    //sh color, 0(tmp)
 
     .text
     .align 4
     .global drawLine
     .type   drawLine, @function
-# void drawLine(int x1, int y1, int x2, int y2, unsigned color, unsigned *framebuffer);
+// void drawLine(int x1, int y1, int x2, int y2, unsigned color, unsigned *framebuffer);
 drawLine:
 .equ x1, $a0
 .equ y1, $a1
@@ -50,41 +50,41 @@ drawLine:
     .set at
     .set noreorder
 
-    # prologue
+    // prologue
     lw color,0x24($sp)
     lw fb,0x2C($sp)
-    # sx = x2 > x1 ? 1 : -1;
+    // sx = x2 > x1 ? 1 : -1;
     subu dx,x2,x1
     bgtz dx,0f
      li sx,1
     li sx,-1
 0:
-    # dx = abs(x2 - x1);
+    // dx = abs(x2 - x1);
     sra tmp,dx,31
     xor dx,dx,tmp
     sub dx,dx,tmp
-    # abs dx
-    # sy = y2 > y1 ? 1 : -1;
+    // abs dx
+    // sy = y2 > y1 ? 1 : -1;
     subu dy,y2,y1
     bgtz dy,0f
      li sy,1
     li sy,-1
 0:
-    # dy = abs(y2 - y1);
+    // dy = abs(y2 - y1);
     sra tmp,dy,31
     xor dy,dy,tmp
     sub dy,dy,tmp
-    # abs dy
-    # err = (dy >= dx ? -dy : dx) / 2;
+    // abs dy
+    // err = (dy >= dx ? -dy : dx) / 2;
     bge dy,dx,0f
      sub tmp,$0,dy
     move tmp,dx
 0:  sra err,tmp,1
 
-    # while(1){
+    // while(1){
     sll tmp, y1, 7
 0:
-    # plot(x1,y1,color,fb);
+    // plot(x1,y1,color,fb);
     sll tmp2, y1, 9
     addu tmp, tmp2
 
@@ -92,8 +92,8 @@ drawLine:
     add tmp,tmp2
     add tmp,fb
     sh color,0(tmp)
-    # if(x1==x2 && y1==y2) break;
-    # e2 = err;
+    // if(x1==x2 && y1==y2) break;
+    // e2 = err;
     bne x1,x2,1f
      move e2,err
     bne y1,y2,1f
@@ -101,18 +101,18 @@ drawLine:
     jr $ra
      nop
 1:
-    # if (e2 < dy)  { err += dx; y1 += sy; }
+    // if (e2 < dy)  { err += dx; y1 += sy; }
     bge e2,dy,1f
      sub tmp,$0,e2
     add err,dx
     add y1,sy
 1:
-    # if (-e2 < dx) { err -= dy; x1 += sx; }
-    # sub tmp,$0,e2
+    // if (-e2 < dx) { err -= dy; x1 += sx; }
+    // sub tmp,$0,e2
     bge tmp,dx,0b
      sll tmp, y1, 7
     sub err,dy
-    # }
+    // }
     j 0b
      add x1,sx
 
@@ -122,7 +122,7 @@ drawLine:
     .align 4
     .global drawCircle
     .type drawCircle, @function
-# void drawCircle(int x1, int y1, unsigned radius, unsigned color, unsigned *framebuffer);
+// void drawCircle(int x1, int y1, unsigned radius, unsigned color, unsigned *framebuffer);
 drawCircle:
 .equ x1,    $a0
 .equ y1,    $a1
@@ -142,20 +142,20 @@ drawCircle:
     .set noreorder
 
     lw fb,0x24($sp)
-    # int x2 = r;
+    // int x2 = r;
     move x2,radius
     li y2,0
-    # int err = 1 - x2;
+    // int err = 1 - x2;
     li tmp,1
     sub err,tmp,x2
 
     li const,320*2
-    # while(x2 >= y2){
+    // while(x2 >= y2){
 L0:
     blt x2,y2,_end
     add tx,x1,x2
     add ty,y1,y2
-    # plot(tx,ty,color,fb);
+    // plot(tx,ty,color,fb);
     multu ty,const
     sll tx,1
     mflo tmp
@@ -226,29 +226,29 @@ L0:
     add tmp,fb
     sh color,0(tmp)
 
-    # y2++;
-    # if(err < 0){
+    // y2++;
+    // if(err < 0){
     bgtz err,0f
     addi y2,1
-    # err += 2 * y2 + 1
+    // err += 2 * y2 + 1
     sll tmp,y2,1
     addi tmp,1
     j L0
     add err,tmp
-0:  # }else{
-    # x2--;
+0:  // }else{
+    // x2--;
     addi x2,-1
-    # err += 2 * (y2 - x2 + 1)
+    // err += 2 * (y2 - x2 + 1)
     sub tmp,y2,x2
     addi tmp,1
     sll tmp,1
     j L0
     add err,tmp
-    # }
+    // }
 _end:
     jr $ra
     nop
 .size drawCircle, .-drawCircle
 
     .set reorder; .set at
-# vim:ft=mips
+// vim:ft=mips
