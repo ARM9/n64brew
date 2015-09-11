@@ -153,73 +153,73 @@ drawCircle:
     // while(x2 >= y2){
 L0:
     blt x2,y2,_end
-    add tx,x1,x2
     add ty,y1,y2
     // plot(tx,ty,color,fb);
     multu ty,const
+    add tx,x1,x2
     sll tx,1
     mflo tmp
     add tmp,tx
     add tmp,fb
     sh color,0(tmp)
 
-    add tx,x1,y2
     add ty,y1,x2
     multu ty,const
+    add tx,x1,y2
     sll tx,1
     mflo tmp
     add tmp,tx
     add tmp,fb
     sh color,0(tmp)
 
-    sub tx,x1,x2
     add ty,y1,y2
     multu ty,const
+    sub tx,x1,x2
     sll tx,1
     mflo tmp
     add tmp,tx
     add tmp,fb
     sh color,0(tmp)
 
-    sub tx,x1,y2
     add ty,y1,x2
     multu ty,const
-    sll tx,1
-    mflo tmp
-    add tmp,tx
-    add tmp,fb
-    sh color,0(tmp)
-
-    sub tx,x1,x2
-    sub ty,y1,y2
-    multu ty,const
-    sll tx,1
-    mflo tmp
-    add tmp,tx
-    add tmp,fb
-    sh color,0(tmp)
-
     sub tx,x1,y2
-    sub ty,y1,x2
-    multu ty,const
     sll tx,1
     mflo tmp
     add tmp,tx
     add tmp,fb
     sh color,0(tmp)
 
-    add tx,x1,x2
     sub ty,y1,y2
     multu ty,const
+    sub tx,x1,x2
     sll tx,1
     mflo tmp
     add tmp,tx
     add tmp,fb
     sh color,0(tmp)
 
-    add tx,x1,y2
     sub ty,y1,x2
     multu ty,const
+    sub tx,x1,y2
+    sll tx,1
+    mflo tmp
+    add tmp,tx
+    add tmp,fb
+    sh color,0(tmp)
+
+    sub ty,y1,y2
+    multu ty,const
+    add tx,x1,x2
+    sll tx,1
+    mflo tmp
+    add tmp,tx
+    add tmp,fb
+    sh color,0(tmp)
+
+    sub ty,y1,x2
+    multu ty,const
+    add tx,x1,y2
     sll tx,1
     mflo tmp
     add tmp,tx

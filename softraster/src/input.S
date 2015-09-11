@@ -67,9 +67,8 @@ readJoypad:
     
     .size readJoypad, .-readJoypad
 
-
-    .align 6
     .data
+    .align 6
 _PIF1:
     .word 0xFF010401 // enable controller 1?
     .word 0xFFFFFFFF
@@ -88,6 +87,7 @@ _PIF1:
     .word 0x00000000
     .word 0x00000001
  
+    .align 6
 _controller_state:
     .fill 64, 0
 
