@@ -7,9 +7,9 @@ incdirs	:= $(build) ../include $(libn64) $(libn64)/include
 includes:= $(foreach dir,$(incdirs),-I$(dir))
 
 arch	:= -march=vr4300
-ASFLAGS	:= -g $(arch) $(includes)
-CFLAGS	:= -g -std=c99 -Wall -Wextra -pedantic -O2 -fno-builtin -nostdinc -mgpopt -G8 -mno-extern-sdata -pipe -flto -ffat-lto-objects $(arch) $(includes)
-LDFLAGS	:= -g -L$(libn64) -Wl,-Map=$(target).map -nostdlib -T$(libn64)/rom.ld
+asflags	:= -g $(arch) $(includes)
+cflags	:= -g -std=c99 -Wall -Wextra -pedantic -O2 -fno-builtin -nostdinc -mgpopt -G8 -mno-extern-sdata -pipe -flto -ffat-lto-objects $(arch) $(includes)
+ldflags	:= -g -L$(libn64) -Wl,-Map=$(target).map -nostdlib -T$(libn64)/rom.ld
 
 libs	:= -ln64
 
@@ -25,14 +25,14 @@ VPATH	:= $(foreach dir,$(sources),$(CURDIR)/$(dir))
 
 all: release
 
-debug: ASFLAGS	+= -DDEBUG
-debug: CFLAGS	+= -DDEBUG
-debug: LDFLAGS	+=
+debug: asflags	+= -DDEBUG
+debug: cflags	+= -DDEBUG
+debug: ldflags	+=
 debug: $(target).z64
 
-release: ASFLAGS	+=
-release: CFLAGS		+=
-release: LDFLAGS	+=
+release: asflags	+=
+release: cflags		+=
+release: ldflags	+=
 release: $(target).z64
 
 $(target).z64: $(target).elf
@@ -43,7 +43,7 @@ $(build):
 	@mkdir -p $@
 
 clean:
-	rm -rf $(target).z64 $(target).elf $(target).map $(build)
+	rm -rf $(build) $(target).elf $(target).z64 $(target).map
 
 run:
 	$(cen64) $(target).z64

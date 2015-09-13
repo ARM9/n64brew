@@ -14,17 +14,17 @@ cen64	:= $(emudir)/n64/cen64/cen64 $(emudir)/n64/cen64/pifrom.bin
 .DEFAULT_GOAL	:= all
 
 build/%.o : %.S
-	$(CC) $(ASFLAGS) -MMD -c $< -o $@
+	$(CC) $(asflags) -MMD -c $< -o $@
 
 build/%.o : %.c
-	$(CC) $(CFLAGS) -MMD -c $< -o $@
+	$(CC) $(cflags) -MMD -c $< -o $@
 
 %.z64 : %.elf
 	$(OBJCOPY) -O binary $< $@
 	$(checksum) $(libn64)/header.bin $@
 
 %.elf:
-	$(CC) $(LDFLAGS) -o $@ $(ofiles) $(libs)
+	$(CC) $(ldflags) -o $@ $(ofiles) $(libs)
 
 .PHONY: libn64
 libn64:
