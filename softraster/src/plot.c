@@ -1,6 +1,5 @@
 #include "plot.h"
-#include "numbers.h"
-#include "vi.h"
+#include "integer.h"
 
 inline void plot(int x, int y, u16 color, u16 *framebuffer)
 {

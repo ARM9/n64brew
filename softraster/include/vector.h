@@ -1,6 +1,6 @@
 #ifndef VECTOR_H
 #define VECTOR_H
-#include "numbers.h"
+#include "integer.h"
 
 typedef struct {
     int x, y;
@@ -24,4 +24,4 @@ void vec3Mul(Vec3 *a, Vec3 *b, Vec3 *c);
 fixed vec3Dot(Vec3 *a, Vec3 *b);
 void vec3Cross(Vec3 *a, Vec3 *b, Vec3 *c);
 
-#endif //VECTOR_H
+#endif

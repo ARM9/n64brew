@@ -1,7 +1,7 @@
 #ifndef MATRIX2_H
 #define MATRIX2_H
 
-#include "numbers.h"
+#include "integer.h"
 
 typedef struct {
     fixed n11, n12,
@@ -17,4 +17,4 @@ void mat2Sub(Mat2 *dest, Mat2 *a, Mat2 *b);
 void mat2Mult(Mat2 *dest, Mat2 *a, Mat2 *b);
 void mat2Rotate(Mat2 *dest, fixed angle);
 
-#endif //MATRIX2_H
+#endif

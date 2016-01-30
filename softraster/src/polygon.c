@@ -1,8 +1,7 @@
-#include "numbers.h"
+#include "integer.h"
 #include "plot.h"
 #include "polygon.h"
 #include "vector.h"
-#include "vi.h"
 
 int g_EdgeBufferL[FB_HEIGHT + 1];
 int g_EdgeBufferR[FB_HEIGHT + 1];

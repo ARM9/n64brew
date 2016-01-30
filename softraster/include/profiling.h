@@ -2,4 +2,4 @@
 #define PROFILING_H
 #include <stdlib.h>
 
-#endif //PROFILING_H
+#endif

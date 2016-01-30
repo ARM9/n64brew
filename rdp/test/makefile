@@ -1,9 +1,9 @@
-include ../base.mk
+include ../../base.mk
 
 target	:= $(shell basename $(CURDIR))
 build	:= build
-sources	:= src ../lib
-incdirs	:= $(build) src ../include $(libn64) $(libn64)/include
+sources	:= src ../../lib
+incdirs	:= $(build) src ../../include $(libn64) $(libn64)/include
 includes:= $(foreach dir,$(incdirs),-I$(dir))
 
 arch	:= -march=vr4300

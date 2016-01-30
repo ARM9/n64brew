@@ -12,6 +12,7 @@ build/
 *.swp
 *.swo
 *.tmp
+*.lnk
 .tags
 tags
 

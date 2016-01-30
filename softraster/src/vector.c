@@ -1,4 +1,4 @@
-#include "numbers.h"
+#include "integer.h"
 #include "vector.h"
 
 /* 2D Vectors ************************/

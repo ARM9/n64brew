@@ -8,15 +8,15 @@ includes:= $(foreach dir,$(incdirs),-I$(dir))
 
 arch	:= -march=vr4300
 asflags	:= -g $(arch) $(includes)
-cflags	:= -g -Wall -Wextra -pedantic -O2 -std=c99 -fno-builtin -nostdinc -mgpopt -G8 -mno-extern-sdata -pipe -flto -ffat-lto-objects $(arch) $(includes)
+cflags	:= -g -Wall -Wextra -Wpadded -pedantic -O2 -std=c99 -fno-builtin -nostdinc -mgpopt -G8 -mno-extern-sdata -pipe $(arch) $(includes)
 ldflags	:= -g -L$(libn64) -Wl,-Map=$(target).map -nostdlib -T$(libn64)/rom.ld 
 
 libs	:= -ln64
 
-sfiles	:= $(foreach dir,$(sources),$(notdir $(wildcard $(dir)/*.S)))
+Sfiles	:= $(foreach dir,$(sources),$(notdir $(wildcard $(dir)/*.S)))
 cfiles	:= $(foreach dir,$(sources),$(notdir $(wildcard $(dir)/*.c)))
 
-ofiles	:= $(cfiles:%.c=$(build)/%.o) $(sfiles:%.S=$(build)/%.o)
+ofiles	:= $(cfiles:%.c=$(build)/%.o) $(Sfiles:%.S=$(build)/%.o)
 depfiles:= $(ofiles:.o=.d)
 
 VPATH	:= $(foreach dir,$(sources),$(CURDIR)/$(dir))
@@ -31,8 +31,8 @@ debug: ldflags	+=
 debug: $(target).z64
 
 release: asflags	+=
-release: cflags		+=
-release: ldflags	+=
+release: cflags		+= -flto -ffat-lto-objects 
+release: ldflags	+= -flto -ffat-lto-objects 
 release: $(target).z64
 
 $(target).z64: $(target).elf

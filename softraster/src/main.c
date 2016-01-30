@@ -1,21 +1,19 @@
 #include <stdlib.h>
 #include <stdint.h>
-#include <stdio.h>
 #include <stddef.h>
-#include <string.h>
 #include <math.h>
 #include <time.h>
+#include <rcp/vi.h>
 
-#include "libn64.h"
-#include "dma.h"
+#include "framebuffer.h"
 #include "input.h"
-#include "numbers.h"
+#include "integer.h"
 #include "plot.h"
 #include "polygon.h"
 #include "vector.h"
-#include "vi.h"
 
-struct Screen_t g_Screen = {FB_WIDTH, FB_HEIGHT, (u16*)0xA0100000, 320*240*2};
+struct Framebuffer_t g_Screen = {(u16*)0xA0100000, FB_WIDTH, FB_HEIGHT
+    , FB_WIDTH*FB_HEIGHT*FB_BPP, FB_BPP};
 
 void drawTri(Vec3 tri[3]) {
     drawLine(fixdiv(tri[0].x, tri[0].z), fixdiv(tri[0].y, tri[0].z),
@@ -26,29 +24,38 @@ void drawTri(Vec3 tri[3]) {
              fixdiv(tri[0].x, tri[0].z), fixdiv(tri[0].y, tri[0].z), 0x00FE, g_Screen.framebuffer);
 }
 
-extern uint8_t *framebuffer;
-extern unsigned __stdout_index;
-
 Vec3 line = {250,250,10};
 Vec2 quad[4] = {{190,170},{240,190},{230,210},{200,200}};
 Vec3 tri[3] = {{140,140,0x180},{180,140,0x180},{160,180,0x180}};
 Vec2 tri2[3] = {{200,170},{240,180},{210,210}};
 
+static vi_state_t vi_state = {
+	0x0000324E, // status
+	0x00100000, // origin
+	0x00000140, // width
+	0x00000200, // intr
+	0x00000000, // current
+	0x03E52239, // burst
+	0x0000020D, // v_sync
+	0x00000C15, // h_sync
+	0x0C150C15, // leap
+	0x006C02EC, // h_start
+	0x002501FF, // v_start
+	0x000E0204, // v_burst
+	0x00000200, // x_scale
+	0x00000400, // y_scale
+};
+
 int main(void)
 {
-    //float aaa = sinf(0.5f) + cosf(1.25f);
+    vi_flush_state(&vi_state);
+    /*Joypad_t player1_joy, player2_joy;*/
 
-    consoleInit();
     /*initJoypad();*/
-    /*screenNTSC(&g_Screen, VI_BPP16);*/
-
-    Joypad_t player1_joy, player2_joy;
 
     while (1) {
         waitScanline(240);
         clock_t t_start = get_ticks_us();
-        __stdout_index = 0;
-        framebuffer = g_Screen.framebuffer;
 
         /*updateJoypads();
 
@@ -56,10 +63,6 @@ int main(void)
         readJoypad(1, &player2_joy);*/
         line.x += 128;//player1_joy.analog_x;
         line.y += 128;//player2_joy.analog_y;
-
-    puts("1 2 3 foo bar");
-    puts("hello world,.123");
-    puts("  Hi !@#$%^&*()_+`-=[{\\';/:?\"|}]");
 
         tri[0].x = 200+(isin(line.x+0x4000)>>7);
         tri[1].y = 120+(isin(line.y+0x2000)>>7);
@@ -116,7 +119,9 @@ int main(void)
         clock_t dt = t_end - t_start;
 
         swapFramebuffer(&g_Screen);
-        memset(g_Screen.framebuffer,0,g_Screen.size);
+        for(size_t i = 0; i < g_Screen.size/sizeof(*g_Screen.framebuffer); i++) {
+            g_Screen.framebuffer[i] = 0;
+        }
     }
     return 0;
 }

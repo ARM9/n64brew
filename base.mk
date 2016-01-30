@@ -6,7 +6,7 @@ OBJCOPY		:= mips64-elf-objcopy
 OBJDUMP		:= mips64-elf-objdump
 checksum	:= checksum
 
-libn64	:= $(DEVKITMIPS)/n64tool/libn64
+libn64	:= $(DEVKITMIPS)/n64chain/libn64
 
 emudir	:= $(DEVKITPRO)/emulators
 cen64	:= $(emudir)/n64/cen64/cen64 $(emudir)/n64/cen64/pifrom.bin
