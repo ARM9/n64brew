@@ -13,6 +13,7 @@ build/
 *.swo
 *.tmp
 *.lnk
+*.7z
 .tags
 tags
 
