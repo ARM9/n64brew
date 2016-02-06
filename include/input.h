@@ -1,7 +1,7 @@
 #ifndef LIBN64_INPUT_H
 #define LIBN64_INPUT_H
 
-#include "pif.h"
+#include <rcp/pif.h>
 
 #define JOY_CRIGHT  0x1 // PIF HWORD: CAMERA RIGHT
 #define JOY_CLEFT   0x2 // PIF HWORD: CAMERA LEFT

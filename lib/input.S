@@ -1,6 +1,6 @@
 
     #include "input.h"
-    #include "si.h"
+    #include "rcp/si.h"
 
     .text
     .balign 4

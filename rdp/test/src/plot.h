@@ -12,8 +12,4 @@ extern struct Framebuffer_t g_Screen;
 void drawMeC(void);
 void drawMeAsm(void);
 
-void plot(u16 *framebuffer, int x, int y, u16 color);
-
-extern void drawVerLine(u16 *framebuffer, int x, int start, int end, u16 color);
-
 #endif

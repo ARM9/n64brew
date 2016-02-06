@@ -26,6 +26,6 @@ sync_full
 };
 
 void drawMeC(void) {
-    runDPC(dp_list, sizeof(dp_list));
+    run_dpc(dp_list, sizeof(dp_list));
 }
 

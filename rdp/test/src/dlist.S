@@ -25,7 +25,7 @@ drawMeAsm:
     sw $ra, 0($sp)
     li $a0, asm_dp_list
     li $a1, asm_dp_list_size
-    jal runDPC
+    jal run_dpc
     nop
 
     lw $ra, 0($sp)

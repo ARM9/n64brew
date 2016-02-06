@@ -22,7 +22,4 @@ typedef volatile s16 vs16;
 typedef volatile s32 vs32;
 typedef volatile s64 vs64;
 
-#define max(a, b) __builtin_max((a), (b));
-#define min(a, b) __builtin_min((a), (b));
-
 #endif
