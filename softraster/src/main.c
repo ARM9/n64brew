@@ -4,7 +4,9 @@
 #include <math.h>
 #include <time.h>
 #include <rcp/vi.h>
+#include <vr4300/cache.h>
 
+#include "debug.h"
 #include "framebuffer.h"
 #include "input.h"
 #include "integer.h"
@@ -12,7 +14,7 @@
 #include "polygon.h"
 #include "vector.h"
 
-struct Framebuffer_t g_Screen = {(u16*)0xA0100000, FB_WIDTH, FB_HEIGHT
+struct Framebuffer_t g_Screen = {(u16*)0x80100000, FB_WIDTH, FB_HEIGHT
     , FB_WIDTH*FB_HEIGHT*FB_BPP, FB_BPP};
 
 void drawTri(Vec3 tri[3]) {
@@ -30,7 +32,8 @@ Vec3 tri[3] = {{140,140,0x180},{180,140,0x180},{160,180,0x180}};
 Vec2 tri2[3] = {{200,170},{240,180},{210,210}};
 
 static vi_state_t vi_state = {
-	0x0000324E, // status
+	VI_BPP16 \
+        | GAMMA_EN|GAMMA_DITHER_EN|INTERLACE|AA_MODE_2|PIXEL_ADV_3, // status
 	0x00100000, // origin
 	0x00000140, // width
 	0x00000200, // intr
@@ -46,7 +49,7 @@ static vi_state_t vi_state = {
 	0x00000400, // y_scale
 };
 
-int main(void)
+__attribute__((noreturn)) int main(void)
 {
     vi_flush_state(&vi_state);
     /*Joypad_t player1_joy, player2_joy;*/
@@ -54,21 +57,14 @@ int main(void)
     /*initJoypad();*/
 
     while (1) {
-        waitScanline(240);
-        clock_t t_start = get_ticks_us();
 
+        clock_t t_start = get_ticks_us();
         /*updateJoypads();
 
         readJoypad(0, &player1_joy);
         readJoypad(1, &player2_joy);*/
         line.x += 128;//player1_joy.analog_x;
         line.y += 128;//player2_joy.analog_y;
-
-        tri[0].x = 200+(isin(line.x+0x4000)>>7);
-        tri[1].y = 120+(isin(line.y+0x2000)>>7);
-        tri[1].x = 180+(isin(line.x+0x1000)>>7);
-        tri[2].x = 200+(isin(line.x)>>7);
-        /*tri[2].x = 200+(sinf(line.x)*10.f);*/
 
         tri2[0].x = 350+(isin(line.x+0x4000)>>7);
         tri2[0].y = 150+(isin(line.x+0x2000)>>7);
@@ -102,6 +98,10 @@ int main(void)
         tri2[2].y = 50+(isin(line.x+0x6000)>>7);
         fillTriangle(tri2, 0x0f00, g_Screen.framebuffer);
 
+        tri[0].x = 200+(isin(line.x+0x4000)>>7);
+        tri[1].y = 120+(isin(line.y+0x2000)>>7);
+        tri[1].x = 180+(isin(line.x+0x1000)>>7);
+        tri[2].x = 200+(isin(line.x)>>7);
         drawTri(tri);
 
         for(int i=0x1000;i-=8;) {
@@ -109,20 +109,16 @@ int main(void)
         }
 
         drawCircle(100,100,50,0xF800,g_Screen.framebuffer);
-/*
-        tri[0].z = fixmul(tri[0].z, 0x104);
-        tri[1].z = fixmul(tri[1].z, 0x102);
-        tri[2].z = fixmul(tri[2].z, 0x101);
-*/
 
         clock_t t_end = get_ticks_us();
         clock_t dt = t_end - t_start;
 
+        writeback_dcache_all();
+        waitScanline(240);
         swapFramebuffer(&g_Screen);
         for(size_t i = 0; i < g_Screen.size/sizeof(*g_Screen.framebuffer); i++) {
             g_Screen.framebuffer[i] = 0;
         }
     }
-    return 0;
 }
 

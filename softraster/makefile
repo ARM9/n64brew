@@ -37,7 +37,7 @@ release: $(target).z64
 
 $(target).z64: $(target).elf
 
-$(target).elf: $(build) $(ofiles)
+$(target).elf: libn64 $(build) $(ofiles)
 
 $(build):
 	@mkdir -p $@

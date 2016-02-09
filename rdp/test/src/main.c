@@ -41,6 +41,7 @@ int main(void)
         waitScanline(240);
         swapFramebuffer(&g_Screen);
         //glDrawRect(0, 0, 320, 240, RGB15(0,0,0));
+        //glClear(GL_COLOR_BUFFER_BIT);
         for(unsigned i = 0; i < g_Screen.size/FB_BPP; i++) {
             g_Screen.framebuffer[i] = 0;
         }
