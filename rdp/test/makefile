@@ -8,7 +8,7 @@ includes:= $(foreach dir,$(incdirs),-I$(dir))
 
 arch	:= -march=vr4300
 asflags	:= -g $(arch) $(includes)
-cflags	:= -g -std=c99 -Wall -Wextra -Wpadded -pedantic -fno-builtin -nostdinc -mgpopt -G8 -mno-extern-sdata -pipe $(arch) $(includes)
+cflags	:= -g -std=c99 -Wall -Wextra -Wpadded -pedantic -mabi=o64 -mlong32 -fno-builtin -nostdinc -mgpopt -G8 -mno-extern-sdata -pipe $(arch) $(includes)
 ldflags	:= -g -L$(libn64) -Wl,-Map=$(target).map -nostdlib -T$(libn64)/rom.ld
 
 libs	:= -ln64

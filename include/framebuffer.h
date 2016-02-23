@@ -14,8 +14,14 @@ struct Framebuffer_t {
     uint32_t width, height, size, depth;
 };
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 void screenNTSC(const struct Framebuffer_t *screen, uint32_t status);
 void swapFramebuffer(struct Framebuffer_t *screen);
 void waitScanline(uint32_t scanline);
+#ifdef __cplusplus
+}
+#endif
 
 #endif
