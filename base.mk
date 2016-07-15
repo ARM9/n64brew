@@ -14,14 +14,25 @@ cen64	:= $(emudir)/n64/cen64/cen64 $(emudir)/n64/cen64/pifrom.bin
 
 .DEFAULT_GOAL	:= all
 
-build/%.o : %.S
-	$(CC) $(asflags) -MMD -c $< -o $@
+build := build
+
+$(build):
+	@mkdir -p $@
 
 build/%.o : %.c
 	$(CC) $(cflags) -MMD -c $< -o $@
 
 build/%.o : %.cpp
 	$(CXX) $(cxxflags) -MMD -c $< -o $@
+
+build/%.o : %.cxx
+	$(CXX) $(cxxflags) -MMD -c $< -o $@
+
+build/%.o : %.cc
+	$(CXX) $(cxxflags) -MMD -c $< -o $@
+
+build/%.o : %.S
+	$(CC) $(asflags) -MMD -c $< -o $@
 
 %.z64 : %.elf
 	$(OBJCOPY) -O binary $< $@

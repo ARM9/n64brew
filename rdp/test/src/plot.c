@@ -16,7 +16,7 @@ fill_rectangle(0, 0, 319<<2, 239<<2),
 sync_pipe,
 //set_blend_color(0xFF0000FF),
 set_fill_color(0xF001F001),
-fill_triangle(1,0,0, 400,200,200, 97,0,-1,0, 96,0,-1,0, 0,0,0,0),
+fill_triangle(1,0,0, 400,200,200, 95,0,-1,0, 94,0,-1,0, 0,0,0,0),
 
 //set_color_image(IMAGE_DATA_FORMAT_RGBA, SIZE_OF_PIXEL_16B, 320-1, 0x001000000,
 //set_fill_color(0x00010001),

@@ -22,6 +22,10 @@
 #ifndef __LANGUAGE_ASSEMBLY
 #include <stdint.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef struct {
     uint16_t buttons;
     int8_t analog_x, analog_y;
@@ -30,6 +34,11 @@ typedef struct {
 void initJoypad();
 void updateJoypads();
 void readJoypad(unsigned pad_num, Joypad_t *joypad);
+
+#ifdef __cplusplus
+}
+#endif
+
 #endif
 
 #endif

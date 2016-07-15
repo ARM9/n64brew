@@ -4,7 +4,7 @@
 #include "plot.h"
 #include "integer.h"
 
-#define RGB15(r, g, b) (r)>>3<<11|(g)>>3<<6|(b)>>3<<1
+#define RGB15(r, g, b) ((r)>>3<<11|(g)>>3<<6|(b)>>3<<1)
 
 struct Framebuffer_t g_Screen = {(u16*)0xA0100000, FB_WIDTH, FB_HEIGHT
     , FB_WIDTH*FB_HEIGHT*FB_BPP, FB_BPP};
@@ -32,15 +32,15 @@ int main(void)
 
     unsigned frame = 0;
 
+    //glClearColor16(0, 0, 0);
     while(1) {
-        frame&1 ?
-            drawMeC() :
-            drawMeAsm();
-        frame++;
+        frame & 1
+            ? drawMeC()
+            : drawMeAsm();
+        ++frame;
 
         waitScanline(240);
         swapFramebuffer(&g_Screen);
-        //glDrawRect(0, 0, 320, 240, RGB15(0,0,0));
         //glClear(GL_COLOR_BUFFER_BIT);
         for(unsigned i = 0; i < g_Screen.size/FB_BPP; i++) {
             g_Screen.framebuffer[i] = 0;

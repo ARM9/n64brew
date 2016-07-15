@@ -13,14 +13,14 @@ swapFramebuffer:
     .equ tmp,       $t3
 
     .set noat; .set noreorder
-    lw fb_ptr,0(Framebuffer_t_ptr)
-    li vi_ptr,VI_BASE // VI Base Register (0xA4400000)
-    lw fb_size,12(Framebuffer_t_ptr) // screen size in bytes
+    lw fb_ptr, 0(Framebuffer_t_ptr)
+    la vi_ptr, VI_BASE // VI Base Register (0xA4400000)
+    lw fb_size, 12(Framebuffer_t_ptr) // screen size in bytes
 
     sw fb_ptr, VI_ORIGIN(vi_ptr) // Store Origin To VI Origin Register (0xA4400004)
-    xor tmp,fb_ptr,fb_size  // Flip framebuffer page
+    xor tmp, fb_ptr, fb_size  // Flip framebuffer page
 
-    sw tmp,0(Framebuffer_t_ptr) // Store back new framebuffer pointer
+    sw tmp, 0(Framebuffer_t_ptr) // Store back new framebuffer pointer
     jr $ra
     nop
 
@@ -35,15 +35,29 @@ waitScanline:
     .equ tmp,   $t1
 
     .set noat; .set noreorder
-    li vi_ptr,VI_BASE // VI Base Register (0xA4400000)
+    la vi_ptr, VI_BASE // VI Base Register (0xA4400000)
 0:
-    lw tmp,VI_V_CURRENT_LINE(vi_ptr) // tmp = Current Scan Line
+    lw tmp, VI_V_CURRENT_LINE(vi_ptr) // tmp = Current Scan Line
     //sync // Sync Load
-    bne tmp,$a0,0b // IF (Current Scan Line != Scan Line) Wait
+    bne tmp, $a0, 0b // IF (Current Scan Line != Scan Line) Wait
     nop
     jr $ra
-    nop // Delay Slot
+    nop
 
     .size waitScanline,.-waitScanline
+
+
+    .balign 4
+    .global getScanline
+    .type getScanline,@function
+getScanline:
+    .equ vi_ptr,$t0
+
+    .set noat; .set noreorder
+    la vi_ptr, VI_BASE // VI Base Register (0xA4400000)
+    jr $ra
+    lw $v0, VI_V_CURRENT_LINE(vi_ptr)
+
+    .size getScanline,.-getScanline
 
 // vim:ft=mips
