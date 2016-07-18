@@ -191,9 +191,13 @@ int main(void) {
         writeback_dcache_all(); // flush dcache because framebuffer is in ram
         run_dpc(dpl.buffer, dpl.end*sizeof(rdp_cmd));
 
-        // poor man's vtune
-        uint32_t scanline = getScanline();
-        myFb.drawLine(0, scanline, 9, scanline, RGB15(31,0,0));
+        //for(i = 0; i < 100000; i++)
+            //asm volatile("":::"memory");
+        /*uint32_t scanline = getScanline();
+        while(scanline<235){
+            scanline = getScanline();
+        }
+        myFb.drawLine(0, scanline, 10, scanline, RGB15(31,0,0));*/
 
         waitScanline(myFb.height());    // wait for vblank
         myFb.swap();                    // then swap the framebuffers (actually page flip)
