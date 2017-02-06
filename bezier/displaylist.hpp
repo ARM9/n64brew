@@ -94,8 +94,9 @@ struct DisplayList {
             dxdyi = (int)dxdy;
             dxdyifrac = dxdy * 65536.f;
 
+            int major_direction = (x1 > x2);
             // assemble rdp command
-            rdp_cmd t[] = {fill_triangle(RIGHT_MAJOR,0,0,
+            rdp_cmd t[] = {fill_triangle(major_direction,0,0,
                     yl,yh,yh, xli,xlifrac, dxdyi,dxdyifrac, xhi,xhifrac, dxdyi,dxdyifrac, 0,0,0,0)};
             // insert command at the end of display list
             memcpy(buf, t, sizeof(t));

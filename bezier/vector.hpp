@@ -255,7 +255,7 @@ struct Vec3 {
         return t;
     }
 
-    Vec3& cross(const Vec3& rhs) {
+    Vec3& cross(const Vec3& rhs) const {
         return Vec3::cross(this, rhs);
     }
 
@@ -284,4 +284,3 @@ struct Vec3 {
         return !(this < rhs);
     }
 };
-

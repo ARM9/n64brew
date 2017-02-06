@@ -34,10 +34,9 @@ int main(void)
 
     //glClearColor16(0, 0, 0);
     while(1) {
-        frame & 1
+        frame++ & 1
             ? drawMeC()
             : drawMeAsm();
-        ++frame;
 
         waitScanline(240);
         swapFramebuffer(&g_Screen);

@@ -14,7 +14,7 @@ struct Bezier {
 private:
     Vec2<float> draw(Vec2<float> *pts, unsigned len, float t) {
         if(len == 1) {
-            return {pts[0].x, pts[0].y};
+            return pts[0];
         } else {
             unsigned newlen = len - 1;
             Vec2<float> newpoints[newlen];

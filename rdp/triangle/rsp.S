@@ -144,3 +144,4 @@ rsp_beg:
 	break
 	nop
 rsp_end:
+// vim:ft=mips

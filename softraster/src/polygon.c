@@ -24,10 +24,9 @@ void edgeDetect(Vec2 v0, Vec2 v1)
 
     fixed dx;
     if(y1 == y2){
-        dx = x2 - x1;
+        dx = 0;
     }else{
         dx = fixdiv((x2 - x1), (y2 - y1));
-        //dx = (x2 - x1) / (y2 - y1);
     }
     
     for(int i = f2i(y1); i <= f2i(y2); i++){

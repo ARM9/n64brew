@@ -130,8 +130,13 @@ rdp_cmd dp_list[512];// = {
 //,sync_full
 //};
 
+//template<int s> struct print_size;
+//print_size<sizeof(DisplayList)> tttttttt;
+
 //float lines[] = {10,10,50,50,60,10,100,100};
-float rdplines[2*10];
+
+static_assert(sizeof(Vec2<float>[10]) == 8*10, "vec2 float not 8 bytes");
+Vec2<float> rdplines[10];
 
 int main(void) {
     Framebuffer<uint16_t> myFb(reinterpret_cast<uint16_t*>(0x8010'0000), 320, 240);
@@ -144,12 +149,10 @@ int main(void) {
 
     unsigned i = 0;
     for(float t = 0.f; t < 1.f; t += 0.1f) {
-        auto p = quadratic.draw(t);
-        rdplines[i++] = p.x;
-        rdplines[i++] = p.y;
+        rdplines[i++] = quadratic.draw(t);
     }
     DisplayList dpl;
-    dpl.init().addLines(rdplines, sizeof(rdplines)/sizeof(*rdplines), 0xf800);
+    dpl.init().addLines((float*)rdplines, 2*sizeof(rdplines)/sizeof(*rdplines), 0xf800);
 
     f24_8 x = 20.f;
     Fixed<short, 4> test{100.f};
