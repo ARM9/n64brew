@@ -17,6 +17,11 @@
 struct Framebuffer_t g_Screen = {(u16*)0x80100000, FB_WIDTH, FB_HEIGHT
     , FB_WIDTH*FB_HEIGHT*FB_BPP, FB_BPP};
 
+struct {
+    int cull: 1,
+        wireframe: 1;
+} RASTER_STATE = {0};
+
 void drawTri(Vec3 tri[3]) {
     drawLine(fixdiv(tri[0].x, tri[0].z), fixdiv(tri[0].y, tri[0].z),
              fixdiv(tri[1].x, tri[1].z), fixdiv(tri[1].y, tri[1].z), 0xFE00, g_Screen.framebuffer);
@@ -29,7 +34,8 @@ void drawTri(Vec3 tri[3]) {
 Vec3 line = {250,250,10};
 Vec2 quad[4] = {{190,170},{240,190},{230,210},{200,200}};
 Vec3 tri[3] = {{140,140,0x180},{180,140,0x180},{160,180,0x180}};
-Vec2 tri2[3] = {{200,170},{240,180},{210,210}};
+/*Vec2 tri2[3] = {{200,170},{240,180},{210,210}};*/
+Vec2 tri2[3] = {{100,188},{100,190},{100,190}};
 
 static vi_state_t vi_state = {
 	VI_BPP16 \
@@ -49,7 +55,7 @@ static vi_state_t vi_state = {
 	0x00000400, // y_scale
 };
 
-__attribute__((noreturn)) int main(void)
+__attribute__((noreturn)) void main(void)
 {
     vi_flush_state(&vi_state);
     /*Joypad_t player1_joy, player2_joy;*/
@@ -74,29 +80,29 @@ __attribute__((noreturn)) int main(void)
         tri2[2].y = 300+(isin(line.x+0x6000)>>7);
         fillTriangle(tri2, 0xDA55, g_Screen.framebuffer);
 
-        tri2[0].x = 100;
-        tri2[0].y = -50;
-        tri2[1].x = 150;
-        tri2[1].y = 100;
-        tri2[2].x = 50;
-        tri2[2].y = 100;
-        fillTriangle(tri2, 0xDA55, g_Screen.framebuffer);
+        /*tri2[0].x = 100;*/
+        /*tri2[0].y = -50;*/
+        /*tri2[1].x = 150;*/
+        /*tri2[1].y = 100;*/
+        /*tri2[2].x = 50;*/
+        /*tri2[2].y = 100;*/
+        /*fillTriangle(tri2, 0xDA55, g_Screen.framebuffer);*/
 
-        tri2[0].x = 100;
-        tri2[0].y = -50;
-        tri2[1].x = 138;
-        tri2[1].y = 75;
-        tri2[2].x = 62;
-        tri2[2].y = 75;
-        fillTriangle(tri2, 0x0A50, g_Screen.framebuffer);
+        /*tri2[0].x = 100;*/
+        /*tri2[0].y = -50;*/
+        /*tri2[1].x = 138;*/
+        /*tri2[1].y = 75;*/
+        /*tri2[2].x = 62;*/
+        /*tri2[2].y = 75;*/
+        /*fillTriangle(tri2, 0x0A50, g_Screen.framebuffer);*/
 
-        tri2[0].x = -50+(isin(line.x+0x4000)>>7);
-        tri2[0].y = -50+(isin(line.x+0x2000)>>7);
-        tri2[1].x = 50+(isin(line.x+0x8000)>>7);
-        tri2[1].y = 50+(isin(line.x+0x4000)>>7);
-        tri2[2].x = -50+(isin(line.x+0xa000)>>7);
-        tri2[2].y = 50+(isin(line.x+0x6000)>>7);
-        fillTriangle(tri2, 0x0f00, g_Screen.framebuffer);
+        /*tri2[0].x = -50+(isin(line.x+0x4000)>>7);*/
+        /*tri2[0].y = -50+(isin(line.x+0x2000)>>7);*/
+        /*tri2[1].x = 50+(isin(line.x+0x8000)>>7);*/
+        /*tri2[1].y = 50+(isin(line.x+0x4000)>>7);*/
+        /*tri2[2].x = -50+(isin(line.x+0xa000)>>7);*/
+        /*tri2[2].y = 50+(isin(line.x+0x6000)>>7);*/
+        /*fillTriangle(tri2, 0x0f00, g_Screen.framebuffer);*/
 
         tri[0].x = 200+(isin(line.x+0x4000)>>7);
         tri[1].y = 120+(isin(line.y+0x2000)>>7);

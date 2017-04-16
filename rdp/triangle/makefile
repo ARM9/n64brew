@@ -5,9 +5,9 @@ sources	:= . ../../lib
 incdirs	:= $(build) src ../../include $(libn64) $(libn64)/include
 includes:= $(foreach dir,$(incdirs),-I$(dir))
 
-arch	:= -march=vr4300
+arch	:= -march=vr4300 -mabi=o64 -mlong32 
 asflags	:= -g $(arch) $(includes)
-cflags	:= -O2 -g -Wall -Wextra -Wpadded -pedantic -mabi=o64 -mlong32 -fno-builtin -nostdinc -mgpopt -G8 -mno-extern-sdata -pipe $(arch) $(includes)
+cflags	:= -O2 -g -Wall -Wextra -Wpadded -pedantic -fno-builtin -nostdinc -mgpopt -G8 -mno-extern-sdata -pipe $(arch) $(includes)
 cxxflags:= $(cflags) -std=c++14 -fno-rtti -fno-exceptions
 cflags	+= -std=c99
 ldflags	:= -g -L$(libn64) -Wl,-Map=$(target).map -nostdlib -T$(libn64)/rom.ld 

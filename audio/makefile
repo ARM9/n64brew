@@ -1,11 +1,11 @@
 include ../base.mk
 
 target	:= $(shell basename $(CURDIR))
-sources	:= src ../lib
-incdirs	:= $(build) src ../include $(libn64) $(libn64)/include
+sources	:= . ../lib
+incdirs	:= $(build) . ../include $(libn64) $(libn64)/include
 includes:= $(foreach dir,$(incdirs),-I$(dir))
 
-arch	:= -march=vr4300 -mabi=o64 -mlong32 
+arch	:= -march=vr4300 -mabi=eabi -mlong32 
 asflags	:= -g $(arch) $(includes)
 cflags	:= -O2 -g -Wall -Wextra -Wpadded -pedantic -fno-builtin -nostdinc -mgpopt -G8 -mno-extern-sdata -pipe $(arch) $(includes)
 cxxflags:= $(cflags) -std=c++14 -fno-rtti -fno-exceptions
@@ -30,12 +30,12 @@ all: release
 
 debug: asflags	+= -DDEBUG
 debug: cflags	+= -DDEBUG
-debug: ldflags	+=
+debug: ldflags	+= 
 debug: $(target).z64
 
 release: asflags	+=
-release: cflags		+= -flto -ffat-lto-objects
-release: ldflags	+= -flto -ffat-lto-objects
+release: cflags		+= -flto -ffat-lto-objects 
+release: ldflags	+= -flto -ffat-lto-objects 
 release: $(target).z64
 
 $(target).z64: $(target).elf
@@ -46,10 +46,7 @@ clean:
 	rm -rf $(build) $(target).elf $(target).z64 $(target).map
 
 run:
-	$(cen64) $(target).z64
-
-dump: $(target).elf
-	$(OBJDUMP) -d $(target).elf
+	$(cen64) $(CURDIR)/$(target).z64
 
 -include $(depfiles)
 

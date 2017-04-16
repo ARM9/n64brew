@@ -13,7 +13,7 @@
 #include "bezier.hpp"
 #include "displaylist.hpp"
 
-static_assert(sizeof(void*) == 4, "Use -mabi=o64 -mlong32");
+static_assert(sizeof(void*) == 4, "Use -mabi=eabi -mlong32");
 
 constexpr uint16_t RGB15(unsigned R, unsigned G, unsigned B) {
     return ((R & 0x1f)<<11 | (G & 0x1f)<<6 | (B & 0x1f)<<1);
@@ -56,7 +56,7 @@ struct Framebuffer {
         plot(x, y, color);
         if(dx > dy) {
             e = 2 * dy - dx;
-            inc1 = 2 * (dy -dx);
+            inc1 = 2 * (dy - dx);
             inc2 = 2 * dy;
             for(int i = 0; i < dx; i++) {
                 if(e >= 0) {
@@ -144,7 +144,7 @@ int main(void) {
     vi_flush_state(&vi_state);
 
     Bezier<1> linear = {{ {10.f,20.f}, {200.f,50.f} }};
-    Bezier<2> quadratic = {{ {220.f, 100.f}, {100.f, 0.f}, {130.f, 90.f} }};
+    Bezier<2> quadratic = {{ {220.f, 100.f}, {100.f, 0.f}, {130.f, 80.f} }};
     Bezier<3> cubic = {{ {120.f,44.f}, {222.f,147.f}, {15.f,64.f}, {157.f,196.f} }};
 
     unsigned i = 0;
