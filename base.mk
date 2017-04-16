@@ -7,7 +7,7 @@ OBJCOPY		:= mips64-elf-objcopy
 OBJDUMP		:= mips64-elf-objdump
 checksum	:= checksum
 
-libn64	:= $(devkitmips)/n64chain/libn64
+libn64	:= $(DEVKITMIPS)/n64chain/libn64
 
 cen64	:= ~/src/cen64/build/cen64 ~/src/cen64/pifrom.bin
 
