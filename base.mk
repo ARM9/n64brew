@@ -31,7 +31,7 @@ build/%.o : %.cc
 	$(CXX) $(cxxflags) -MMD -c $< -o $@
 
 build/%.o : %.S
-	$(CXX) $(asflags) -MMD -c $< -o $@
+	$(CC) $(asflags) -MMD -c $< -o $@
 
 %.z64 : %.elf
 	$(OBJCOPY) -O binary $< $@

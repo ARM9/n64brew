@@ -3,6 +3,7 @@
 #include <stddef.h>
 #include <math.h>
 #include <time.h>
+#include <mmio.h>
 #include <rcp/vi.h>
 #include <vr4300/cache.h>
 
@@ -62,6 +63,11 @@ __attribute__((noreturn)) void main(void)
 
     /*initJoypad();*/
 
+    /*volatile char* stdout = 0x13FF0000;*/
+    /**stdout = 'a';*/
+    /**stdout = 'b';*/
+    /**stdout = 'c';*/
+    /**stdout = '\n';*/
     while (1) {
 
         clock_t t_start = get_ticks_us();

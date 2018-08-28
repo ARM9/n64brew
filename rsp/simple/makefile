@@ -1,14 +1,13 @@
-include ../base.mk
+include ../../base.mk
 
 target	:= $(shell basename $(CURDIR))
-sources	:= src ../lib
-incdirs	:= $(build) include ../include $(libn64) $(libn64)/include
+sources	:= . ../../lib
+incdirs	:= $(build) src ../../include $(libn64) $(libn64)/include
 includes:= $(foreach dir,$(incdirs),-I$(dir))
 
-arch	:= -march=vr4300 -mabi=o64 -mlong32
+arch	:= -march=vr4300 -mabi=o64 -mlong32 
 asflags	:= -g $(arch) $(includes)
 cflags	:= -O2 -g -Wall -Wextra -Wpadded -pedantic -fno-builtin -nostdinc -mgpopt -G8 -mno-extern-sdata -pipe $(arch) $(includes)
-cxxflags:= $(cflags) -std=c++14 -fno-rtti -fno-exceptions
 cflags	+= -std=c99
 ldflags	:= -g -L$(libn64) -Wl,-Map=$(target).map -nostdlib -T$(libn64)/rom.ld 
 
@@ -16,7 +15,6 @@ libs	:= -ln64
 
 sfiles	:=	$(foreach dir,$(sources),$(notdir $(wildcard $(dir)/*.S)))
 cfiles	:=	$(foreach dir,$(sources),$(notdir $(wildcard $(dir)/*.c)))
-cxxfiles:=	$(foreach dir,$(sources),$(notdir $(wildcard $(dir)/*.cpp)))
 
 ofiles	:=	$(cfiles:%.c=$(build)/%.o) $(cxxfiles:%.cpp=$(build)/%.o) \
 		$(sfiles:%.S=$(build)/%.o)
@@ -30,12 +28,12 @@ all: release
 
 debug: asflags	+= -DDEBUG
 debug: cflags	+= -DDEBUG
-debug: ldflags	+= 
+debug: ldflags	+=
 debug: $(target).z64
 
 release: asflags	+=
-release: cflags		+= -flto -ffat-lto-objects 
-release: ldflags	+= -flto -ffat-lto-objects 
+release: cflags		+= -flto -ffat-lto-objects
+release: ldflags	+= -flto -ffat-lto-objects
 release: $(target).z64
 
 $(target).z64: $(target).elf
@@ -45,11 +43,12 @@ $(target).elf: libn64 $(build) $(ofiles)
 clean:
 	rm -rf $(build) $(target).elf $(target).z64 $(target).map
 
-run: all
-	$(cen64) $(CURDIR)/$(target).z64
+run:
+	$(cen64) $(target).z64
 
-runw: all
-	/c/devkitPro/emulators/n64/cen64/cen64.exe /c/devkitPro/emulators/n64/pifrom.bin $(CURDIR)/$(target).z64 -is-viewer
+.PHONY: dis
+dis: $(target).elf
+	$(OBJDUMP) -b binary -mmips:4300 -EB -D $< > _dis.asm
 
 -include $(depfiles)
 

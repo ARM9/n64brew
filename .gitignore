@@ -6,6 +6,8 @@ build/
 *.a
 *.o
 *.d
+*.ignore
+_dis.asm
 
 .*~
 *~
