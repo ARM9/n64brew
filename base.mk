@@ -45,3 +45,10 @@ build/%.o : %.S
 libn64:
 	@$(MAKE) -sC $(libn64)
 
+.PHONY: debug dis
+debug:
+	mess n64 -cart $(target).z64 -d
+
+dis:
+	$(OBJDUMP) -b binary -mmips:4300 -EB -D $(target).z64 > _dis.asm
+

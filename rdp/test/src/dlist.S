@@ -12,7 +12,7 @@ set_fill_color(0x00010001),\
 fill_rectangle(0, 0, 319<<2, 239<<2),\
 sync_pipe,\
 set_fill_color(0xF001F001),\
-fill_triangle(1,0,0, 400,200,200, 96,0,-1,0, 95,0,-1,0, 0,0,0,0),\
+fill_triangle(1,0,0, 400,200,200, 97,0,-1,0, 96,0,-1,0, 0,0,0,0),\
 sync_full
 .equ asm_dp_list_size,.-asm_dp_list
 
@@ -25,7 +25,7 @@ drawMeAsm:
     sw $ra, 0($sp)
     li $a0, asm_dp_list
     li $a1, asm_dp_list_size
-    jal run_dpc
+    jal rdp_exec
     nop
 
     lw $ra, 0($sp)
