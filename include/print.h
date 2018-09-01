@@ -23,17 +23,18 @@ struct console_t {
 extern "C" {
 #endif
 
-struct console_t * initConsoleSimple (uintptr_t fb, int width, int height);
-void initConsole (struct console_t *c);
-void consoleSetColor (uint16_t fg_color, uint16_t bg_color);
-void consoleSetFgColor (uint16_t color);
-void consoleSetBgColor (uint16_t color);
-void consoleSetPos (int x, int y);
-void consoleSetX (int x);
-void consoleSetY (int y);
-void consoleSetOpacity (int o);
-void consoleSetMargins(unsigned top, unsigned bottom, unsigned left, unsigned right);
-void consoleClear (void);
+struct console_t * console_init_simple (uintptr_t fb, int width, int height);
+void console_init (struct console_t *c);
+void console_set_color (uint16_t fg_color, uint16_t bg_color);
+void console_set_fg_color (uint16_t color);
+void console_set_bg_color (uint16_t color);
+void console_set_pos (int x, int y);
+void console_set_x (int x);
+void console_set_y (int y);
+void console_set_opacity (int o);
+void console_set_margins(unsigned top, unsigned bottom, unsigned left, unsigned right);
+void console_clear (void);
+void console_flush (void);
 
 void putchar (int c);
 void print (const char *str);

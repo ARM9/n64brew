@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdarg.h>
+#include <vr4300/cache.h>
 
 #include "print.h"
 #include "fonts/torusSans.h"
@@ -15,7 +16,7 @@
 static struct console_t * console;
 static struct console_t simple_console;
 
-struct console_t * initConsoleSimple (uintptr_t p_fb, int fb_width, int fb_height) {
+struct console_t * console_init_simple (uintptr_t p_fb, int fb_width, int fb_height) {
     struct console_t t = {
         .framebuffer = (uint16_t *)p_fb,
         .x = 8,
@@ -39,50 +40,53 @@ struct console_t * initConsoleSimple (uintptr_t p_fb, int fb_width, int fb_heigh
 }
 
 // Make sure con doesn't go out of scope
-void initConsole (struct console_t *con) {
+void console_init (struct console_t *con) {
     console = con;
 }
 
-void consoleSetLineSpacing (unsigned s) {
+void console_set_line_spacing (unsigned s) {
     console->line_spacing = s;
 }
 
-void consoleSetMargins(unsigned top, unsigned bottom, unsigned left, unsigned right) {
+void console_set_margins(unsigned top, unsigned bottom, unsigned left, unsigned right) {
     console->margin.top = top;
     console->margin.bottom = bottom;
     console->margin.left = left;
     console->margin.right = right;
 }
 
-void consoleSetPos (int x, int y) {
+void console_set_pos (int x, int y) {
     console->x = x;
     console->y = y;
 }
 
-void consoleSetX (int x) {
+void console_set_x (int x) {
     console->x = x;
 }
-void consoleSetY (int y) {
+void console_set_y (int y) {
     console->y = y;
 }
 
-void consoleSetColor (uint16_t fg, uint16_t bg) {
+void console_set_color (uint16_t fg, uint16_t bg) {
     console->color = fg;
     console->bg_color = bg;
 }
 
-void consoleSetFgColor (uint16_t rgb) {
+void console_set_fg_color (uint16_t rgb) {
     console->color = rgb;
 }
-void consoleSetBgColor (uint16_t rgb) {
+void console_set_bg_color (uint16_t rgb) {
     console->bg_color = rgb;
 }
-void consoleSetOpacity (int o) {
+void console_set_opacity (int o) {
     console->opaque = o;
 }
 
-void consoleClear () {
+void console_clear () {
     memset(console->framebuffer, console->bg_color, console->width * console->height * 2);
+}
+void console_flush () {
+    writeback_dcache_all();
 }
 
 void putchar (int c) {
@@ -158,6 +162,18 @@ void printf (const char *fmt, ...) {
         }
         c = *fmt++;
         switch(c) {
+            /*
+            case '0': {
+                %04x format
+            }
+                break;
+            */
+            /*
+            case '*': {
+                printf("%*x", width, 0x1234)
+            }
+                break;
+            */
             case 'c':
                 i = va_arg(arg, int);
                 putchar(i);
@@ -177,6 +193,12 @@ void printf (const char *fmt, ...) {
                 itoa(i, buf, 2);
                 print(buf);
                 break;
+            /*
+            case 'f': {
+                todo print floats
+            }
+                break;
+            */
             case 's': {
                 char *s = va_arg(arg, char *);
                 print(s);
