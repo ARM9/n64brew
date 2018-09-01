@@ -28,7 +28,7 @@ int main(void)
         frame & 1
             ? drawMeC()
             : drawMeAsm();
-        while (rdp_is_busy());
+        while (rdp_busy());
 
         waitScanline(240);
         //glClear(GL_COLOR_BUFFER_BIT);

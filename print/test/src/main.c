@@ -49,12 +49,18 @@ int main(void) {
     /*puts("Greetings, traveler!\nI am but a simple water filter salesman");*/
 
     printf("\tHexa:\t");
-    console_set_color(RGB15(31,0,0), RGB15(9,9,9));
+    console_set_color(RGB15(28,28,28), RGB15(5,5,5));
     printf("0x%x 0x%x\n", 0xfeed, 0xbacc);
-    printf("check this %s=0%xh", "out", 123);
+    printf("%s=0%xh", "out", 123);
     printf("\n%%bits and bobs %b\n%b", 0xff, ~0x800000);
     printf("\n%d %d %d %d %d\n%d %d", 4, -4, 1337, 21139179, 0x8000000, 0x80000000, 0xffffffff);
 
+    printf ("round %d %d", (int)roundf( 42.6f), (int)round( 42.6));
+    printf (" %d %d\n",    (int)roundf(-42.1f), (int)round(-42.1));
+    printf ("floor %d %d", (int)floorf( 42.6f), (int)floor( 42.6));
+    printf (" %d %d\n",    (int)floorf(-42.6f), (int)floor(-42.6));
+    printf ("ceil  %d %d", (int)ceilf ( 42.6f), (int)ceil ( 42.6));
+    printf (" %d %d",      (int)ceilf (-42.6f), (int)ceil (-42.6));
     /*printf("hello\nworld\nfoo\nbar\ncar\nparts\ncarts\npaul\nblart\nmall\nsplart\ndart\nmario\nkart");*/
 
     console_flush();
