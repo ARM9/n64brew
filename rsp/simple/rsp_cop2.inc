@@ -21,6 +21,8 @@
     .word 0x48800000 | (((\rt) & 31)<<16) | (((\rd) & 31)<<11) | (((\elem) & 15)<<7)
 .endm
 
+// TODO CTC2, CFC2
+
 .macro lhv vt, offset, base
  FMT_LV( 8, \vt, 0, \offset, \base)
 .endm
