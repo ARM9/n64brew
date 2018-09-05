@@ -145,6 +145,15 @@ void putchar (int c) {
     console->x += 8;
 }
 
+void _unimplemented_fmt (char * fmt) {
+    uint16_t pfg = console->color, pbg = console->bg_color;
+    console->color = 0xf800; console->bg_color = 0;
+    print("\nInvalid fmt: ");
+    putchar('%');
+    puts(fmt);
+    console->color = pfg; console->bg_color = pbg;
+}
+
 void printf (const char *fmt, ...) {
     va_list arg;
 
@@ -199,6 +208,36 @@ void printf (const char *fmt, ...) {
             }
                 break;
             */
+            case 'l': {
+                c = *fmt++;
+                if (c != 'l') {
+                    char buf[] = {'l',c,0};
+                    _unimplemented_fmt(buf);
+                    va_end(arg);
+                    return;
+                }
+                c = *fmt++;
+                switch (c) {
+                int64_t li;
+                    case 'd':
+                        li = va_arg(arg, int64_t);
+                        lltoa(li, buf, 10);
+                        print(buf);
+                        break;
+                    case 'x':
+                        li = va_arg(arg, int64_t);
+                        lltoa(li, buf, 16);
+                        print(buf);
+                        break;
+                    default: {
+                        char buf[] = {'l','l',c,0};
+                        _unimplemented_fmt(buf);
+                        va_end(arg);
+                        return;
+                    }
+                }
+            }
+                break;
             case 's': {
                 char *s = va_arg(arg, char *);
                 print(s);
@@ -210,8 +249,12 @@ void printf (const char *fmt, ...) {
             case 0: // prevent buffer overrun on string ending in "...%"
                 fmt--;
                 break;
-            default:
-                break;
+            default: {
+                char buf[] = {c,0};
+                _unimplemented_fmt(buf);
+                va_end(arg);
+                return;
+            }
         }
     }
     va_end(arg);

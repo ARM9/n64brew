@@ -42,18 +42,24 @@ int main(void) {
 
     console->bg_color = 0x24;
     console_clear();
+    printf("%llx\n", (int64_t)0x4000000000000000);
+    printf("%lld\n", (int64_t)0x4000000000000000);
+    printf("%lld\n", (int64_t)0x40000000000000);
+
+    printf("%llx\n", (int64_t)0x8000000000000000-1);
+    printf("%lld\n", (int64_t)0x8000000000000000-1);
     puts("this is n64dev");
 
-    console_set_pos(18,55);
+    console_set_pos(18,85);
     console->margin.left = 18;
     /*puts("Greetings, traveler!\nI am but a simple water filter salesman");*/
 
     printf("\tHexa:\t");
     console_set_color(RGB15(28,28,28), RGB15(5,5,5));
-    printf("0x%x 0x%x\n", 0xfeed, 0xbacc);
+    printf("0x%x 0x%x 0x%x\n", 0xfeed, 0xbacc, 0xfeedbac);
     printf("%s=0%xh", "out", 123);
-    printf("\n%%bits and bobs %b\n%b", 0xff, ~0x800000);
-    printf("\n%d %d %d %d %d\n%d %d", 4, -4, 1337, 21139179, 0x8000000, 0x80000000, 0xffffffff);
+    printf("\n%%bits and bobs %b' %x\n%b", 0xff, 15, ~0x800000);
+    printf("\n%d %d %d %d %d\n%d %d\n", 4, -4, 1337, 21139179, 0x8000000, 0x80000000, 0xffffffff);
 
     printf ("round %d %d", (int)roundf( 42.6f), (int)round( 42.6));
     printf (" %d %d\n",    (int)roundf(-42.1f), (int)round(-42.1));
