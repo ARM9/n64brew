@@ -13,7 +13,7 @@
 #include "bezier.hpp"
 #include "displaylist.hpp"
 
-static_assert(sizeof(void*) == 4, "Use -mabi=eabi -mlong32");
+static_assert(sizeof(void*) == 4, "Use -mabi=o64 -mlong32");
 
 constexpr uint16_t RGB15(unsigned R, unsigned G, unsigned B) {
     return ((R & 0x1f)<<11 | (G & 0x1f)<<6 | (B & 0x1f)<<1);

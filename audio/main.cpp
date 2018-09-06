@@ -10,7 +10,7 @@
 
 #include "framebuffer.h"
 
-static_assert(sizeof(void*) == 4, "Use -mabi=eabi -mlong32");
+static_assert(sizeof(void*) == 4, "Use -mabi=o64 -mlong32");
 
 static vi_state_t vi_state = {
 	VI_BPP16

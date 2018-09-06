@@ -82,7 +82,7 @@ void fillTriangle(Vec2 v[3], u16 color, u16 *framebuffer)
     edgeDetect(v[1], v[2]);
     edgeDetect(v[2], v[0]);
 
-    for(int y = min_y; y <= max_y; y++){
+    for(int y = min_y; y < max_y; y++){
         for(int x = g_EdgeBufferL[y]; x <= g_EdgeBufferR[y]; x++)
             plot(x, y, color, framebuffer);
     }
