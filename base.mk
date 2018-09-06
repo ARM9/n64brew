@@ -7,7 +7,7 @@ OBJCOPY		:= mips64-elf-objcopy
 OBJDUMP		:= mips64-elf-objdump
 checksum	:= checksum
 
-libn64	:= $(devkitmips)/n64chain/libn64
+libn64	:= $(DEVKITMIPS)/n64chain/libn64
 
 cen64	:= ~/src/cen64/build/cen64 ~/src/cen64/pifrom.bin
 
@@ -44,4 +44,11 @@ build/%.o : %.S
 .PHONY: libn64
 libn64:
 	@$(MAKE) -sC $(libn64)
+
+.PHONY: debug dis
+debug:
+	mess n64 -cart $(target).z64 -d
+
+dis:
+	$(OBJDUMP) -b binary -mmips:4300 -EB -D $(target).z64 > _dis.asm
 

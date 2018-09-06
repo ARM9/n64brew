@@ -192,7 +192,7 @@ int main(void) {
         myFb.plot((int)-test % myFb.width(), 200, 0xf000);
 
         writeback_dcache_all(); // flush dcache because framebuffer is in ram
-        run_dpc(dpl.buffer, dpl.end*sizeof(rdp_cmd));
+        rdp_exec(dpl.buffer, dpl.end*sizeof(rdp_cmd));
 
         //for(i = 0; i < 100000; i++)
             //asm volatile("":::"memory");
