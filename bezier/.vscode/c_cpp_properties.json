@@ -1,0 +1,19 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${devkitmips}/n64chain/libn64",
+                "${devkitmips}/n64chain/libn64/include",
+                "${workspaceFolder}/../include"
+            ],
+            "defines": [],
+            "compilerPath": "${devkitmips}/n64chain/tools/bin/mips64-elf-g++",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "gcc-x64"
+        }
+    ],
+    "version": 4
+}
